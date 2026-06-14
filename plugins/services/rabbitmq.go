@@ -1,0 +1,321 @@
+﻿//go:build plugin_rabbitmq || !plugin_selective
+
+package services
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"net"
+	"net/http"
+	"strconv"
+	"strings"
+	"time"
+
+	"scanner/core/common"
+	"scanner/core/common/i18n"
+	"scanner/core/plugins"
+)
+
+// RabbitMQPlugin RabbitMQ扫描插件
+type RabbitMQPlugin struct {
+	plugins.BasePlugin
+}
+
+func NewRabbitMQPlugin() *RabbitMQPlugin {
+	return &RabbitMQPlugin{
+		BasePlugin: plugins.NewBasePlugin("rabbitmq"),
+	}
+}
+
+func (p *RabbitMQPlugin) Scan(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	config := session.Config
+	target := info.Target()
+
+	if config.DisableBrute {
+		return p.identifyService(ctx, info, session)
+	}
+
+	// 先检测未授权访问
+	if result := p.testUnauthorizedAccess(ctx, info, session); result != nil && result.Success {
+		session.LogSuccess(i18n.Tr("rabbitmq_service", target, result.Banner))
+		return result
+	}
+
+	credentials := GenerateCredentials("rabbitmq", config)
+	if len(credentials) == 0 {
+		return &ScanResult{
+			Success: false,
+			Service: "rabbitmq",
+			Error:   fmt.Errorf("%s", i18n.GetText("service_no_credentials")),
+		}
+	}
+
+	// 使用公共框架进行并发凭据测试
+	authFn := p.createAuthFunc(info, session)
+	testConfig := DefaultConcurrentTestConfigWithTarget(config, info)
+
+	result := TestCredentialsConcurrently(ctx, credentials, authFn, "rabbitmq", testConfig)
+
+	if result.Success {
+		session.LogVuln(i18n.Tr("rabbitmq_credential", target, result.Username, result.Password))
+	}
+
+	return result
+}
+
+// createAuthFunc 创建RabbitMQ认证函数
+func (p *RabbitMQPlugin) createAuthFunc(info *common.HostInfo, session *common.ScanSession) AuthFunc {
+	return func(ctx context.Context, cred Credential) *AuthResult {
+		return p.doRabbitMQAuth(ctx, info, cred, session)
+	}
+}
+
+// doRabbitMQAuth 执行RabbitMQ认证
+func (p *RabbitMQPlugin) doRabbitMQAuth(ctx context.Context, info *common.HostInfo, cred Credential, session *common.ScanSession) *AuthResult {
+	config := session.Config
+	// 对于AMQP端口，使用HTTP管理接口
+	port := info.Port
+	if port == 5672 || port == 5671 {
+		port = 15672
+		if info.Port == 5671 {
+			port = 15671
+		}
+	}
+
+	baseURL := "http://" + net.JoinHostPort(info.Host, strconv.Itoa(port))
+	client := &http.Client{Timeout: config.Timeout}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", baseURL+"/api/overview", nil)
+	if err != nil {
+		return &AuthResult{
+			Success:   false,
+			ErrorType: classifyRabbitMQErrorType(err),
+			Error:     err,
+		}
+	}
+
+	req.SetBasicAuth(cred.Username, cred.Password)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := session.HTTPDo(client, req)
+	if err != nil {
+		return &AuthResult{
+			Success:   false,
+			ErrorType: classifyRabbitMQErrorType(err),
+			Error:     err,
+		}
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode == 200 {
+		return &AuthResult{
+			Success:   true,
+			Conn:      &rabbitMQConnWrapper{},
+			ErrorType: ErrorTypeUnknown,
+			Error:     nil,
+		}
+	}
+
+	if resp.StatusCode == 401 || resp.StatusCode == 403 {
+		return &AuthResult{
+			Success:   false,
+			ErrorType: ErrorTypeAuth,
+			Error:     fmt.Errorf(i18n.GetText("service_auth_failed")+": %d", resp.StatusCode),
+		}
+	}
+
+	return &AuthResult{
+		Success:   false,
+		ErrorType: ErrorTypeUnknown,
+		Error:     fmt.Errorf(i18n.GetText("unexpected_status_code")+": %d", resp.StatusCode),
+	}
+}
+
+// rabbitMQConnWrapper RabbitMQ连接包装器
+type rabbitMQConnWrapper struct{}
+
+func (w *rabbitMQConnWrapper) Close() error {
+	return nil
+}
+
+// classifyRabbitMQErrorType RabbitMQ错误分类
+func classifyRabbitMQErrorType(err error) ErrorType {
+	if err == nil {
+		return ErrorTypeUnknown
+	}
+
+	rabbitMQAuthErrors := []string{
+		"authentication failed",
+		"access denied",
+		"unauthorized",
+		"401 unauthorized",
+		"403 forbidden",
+	}
+
+	return ClassifyError(err, rabbitMQAuthErrors, CommonNetworkErrors)
+}
+
+// testUnauthorizedAccess 测试RabbitMQ未授权访问
+func (p *RabbitMQPlugin) testUnauthorizedAccess(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	config := session.Config
+	port := info.Port
+	if port == 5672 || port == 5671 {
+		port = 15672
+	}
+
+	baseURL := "http://" + net.JoinHostPort(info.Host, strconv.Itoa(port))
+	client := &http.Client{Timeout: config.Timeout}
+
+	// 测试无认证访问
+	req, err := http.NewRequestWithContext(ctx, "GET", baseURL+"/api/overview", nil)
+	if err != nil {
+		return nil
+	}
+
+	resp, err := session.HTTPDo(client, req)
+	if err != nil {
+	} else {
+		defer func() { _ = resp.Body.Close() }()
+
+		if resp.StatusCode == 200 {
+			return &ScanResult{
+				Type:    plugins.ResultTypeVuln,
+				Success: true,
+				Service: "rabbitmq",
+				Banner:  i18n.GetText("service_unauthorized"),
+			}
+		}
+	}
+
+	// 测试guest默认用户
+	guestReq, err := http.NewRequestWithContext(ctx, "GET", baseURL+"/api/overview", nil)
+	if err == nil {
+		guestReq.SetBasicAuth("guest", "guest")
+		guestResp, guestErr := session.HTTPDo(client, guestReq)
+		if guestErr == nil {
+			defer func() { _ = guestResp.Body.Close() }()
+			if guestResp.StatusCode == 200 {
+				return &ScanResult{
+					Type:    plugins.ResultTypeVuln,
+					Success: true,
+					Service: "rabbitmq",
+					Banner:  i18n.GetText("rabbitmq_guest_default_password"),
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// testAMQPProtocol 检测AMQP协议
+func (p *RabbitMQPlugin) testAMQPProtocol(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	target := info.Target()
+
+	conn, err := session.DialTCP(ctx, "tcp", target, session.Config.Timeout)
+	if err != nil {
+		return nil
+	}
+	defer func() { _ = conn.Close() }()
+
+	_ = conn.SetDeadline(time.Now().Add(session.Config.Timeout))
+
+	// 发送AMQP协议头
+	amqpHeader := []byte{0x41, 0x4d, 0x51, 0x50, 0x00, 0x00, 0x09, 0x01}
+	_, err = conn.Write(amqpHeader)
+	if err != nil {
+		return nil
+	}
+
+	buffer := make([]byte, 32)
+	n, err := conn.Read(buffer)
+	if err != nil || n < 4 {
+		return nil
+	}
+
+	if string(buffer[:4]) == "AMQP" || (n >= 8 && buffer[0] == 0x01) {
+		banner := "RabbitMQ AMQP"
+		session.LogSuccess(i18n.Tr("rabbitmq_service", target, banner))
+		return &ScanResult{
+			Type:    plugins.ResultTypeService,
+			Success: true,
+			Service: "rabbitmq",
+			Banner:  banner,
+		}
+	}
+
+	return nil
+}
+
+func (p *RabbitMQPlugin) identifyService(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	// 对于AMQP端口，检测AMQP协议
+	if info.Port == 5672 || info.Port == 5671 {
+		if result := p.testAMQPProtocol(ctx, info, session); result != nil && result.Success {
+			return result
+		}
+	}
+
+	// 检测HTTP管理界面
+	return p.testManagementInterface(ctx, info, session)
+}
+
+func (p *RabbitMQPlugin) testManagementInterface(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	config := session.Config
+	target := info.Target()
+	baseURL := "http://" + info.Target()
+
+	client := &http.Client{Timeout: config.Timeout}
+
+	req, err := http.NewRequestWithContext(ctx, "GET", baseURL, nil)
+	if err != nil {
+		return &ScanResult{
+			Success: false,
+			Service: "rabbitmq",
+			Error:   err,
+		}
+	}
+
+	resp, err := session.HTTPDo(client, req)
+	if err != nil {
+		return &ScanResult{
+			Success: false,
+			Service: "rabbitmq",
+			Error:   err,
+		}
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode == 200 || resp.StatusCode == 401 {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return &ScanResult{
+				Success: false,
+				Service: "rabbitmq",
+				Error:   err,
+			}
+		}
+		if strings.Contains(strings.ToLower(string(body)), "rabbitmq") {
+			banner := "RabbitMQ Management"
+			session.LogSuccess(i18n.Tr("rabbitmq_detected", target, banner))
+			return &ScanResult{
+				Type:    plugins.ResultTypeService,
+				Success: true,
+				Service: "rabbitmq",
+				Banner:  banner,
+			}
+		}
+	}
+
+	return &ScanResult{
+		Success: false,
+		Service: "rabbitmq",
+		Error:   fmt.Errorf("%s", i18n.Tr("service_not_identified", "RabbitMQ")),
+	}
+}
+
+func init() {
+	RegisterPluginWithPorts("rabbitmq", func() Plugin {
+		return NewRabbitMQPlugin()
+	}, []int{5672, 15672, 5671})
+}

@@ -1,0 +1,147 @@
+﻿//go:build plugin_elasticsearch || !plugin_selective
+
+package services
+
+import (
+	"context"
+	"crypto/tls"
+	"encoding/base64"
+	"fmt"
+	"io"
+	"net/http"
+
+	"scanner/core/common"
+	"scanner/core/common/i18n"
+	"scanner/core/plugins"
+)
+
+type ElasticsearchPlugin struct {
+	plugins.BasePlugin
+}
+
+func NewElasticsearchPlugin() *ElasticsearchPlugin {
+	return &ElasticsearchPlugin{
+		BasePlugin: plugins.NewBasePlugin("elasticsearch"),
+	}
+}
+
+func (p *ElasticsearchPlugin) Scan(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	config := session.Config
+	target := info.Target()
+
+	if config.DisableBrute {
+		return p.identifyService(ctx, info, session)
+	}
+
+	// 首先检测未授权访问
+	if p.testCredential(ctx, info, Credential{Username: "", Password: ""}, session) {
+		session.LogVuln(i18n.Tr("elasticsearch_unauth", target))
+		return &ScanResult{
+			Success: true,
+			Type:    plugins.ResultTypeVuln,
+			Service: "elasticsearch",
+			VulInfo: i18n.GetText("unauthorized_access"),
+		}
+	}
+
+	// 如果需要认证，尝试常见凭据
+	credentials := GenerateCredentials("elasticsearch", config)
+	if len(credentials) == 0 {
+		return &ScanResult{
+			Success: false,
+			Service: "elasticsearch",
+			Error:   fmt.Errorf("%s", i18n.GetText("service_no_credentials")),
+		}
+	}
+
+	for _, cred := range credentials {
+		if p.testCredential(ctx, info, cred, session) {
+			session.LogVuln(i18n.Tr("elasticsearch_credential", target, cred.Username, cred.Password))
+			return &ScanResult{
+				Success:  true,
+				Type:     plugins.ResultTypeCredential,
+				Service:  "elasticsearch",
+				Username: cred.Username,
+				Password: cred.Password,
+			}
+		}
+	}
+
+	return &ScanResult{
+		Success: false,
+		Service: "elasticsearch",
+		Error:   fmt.Errorf("%s", i18n.GetText("service_no_weak_pass")),
+	}
+}
+
+func (p *ElasticsearchPlugin) testCredential(ctx context.Context, info *common.HostInfo, cred Credential, session *common.ScanSession) bool {
+	config := session.Config
+	client := &http.Client{
+		Timeout: config.Timeout,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
+
+	// 构建URL
+	protocol := "http"
+	if info.Port == 9443 {
+		protocol = "https"
+	}
+	url := fmt.Sprintf("%s://%s/", protocol, info.Target())
+
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
+	if err != nil {
+		return false
+	}
+
+	if cred.Username != "" || cred.Password != "" {
+		auth := base64.StdEncoding.EncodeToString([]byte(cred.Username + ":" + cred.Password))
+		req.Header.Set("Authorization", "Basic "+auth)
+	}
+
+	resp, err := session.HTTPDo(client, req)
+	if err != nil {
+		return false
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode == 200 {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return false
+		}
+
+		bodyStr := string(body)
+		return common.ContainsAny(bodyStr, "elasticsearch", "cluster_name")
+	}
+
+	return false
+}
+
+func (p *ElasticsearchPlugin) identifyService(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *ScanResult {
+	target := info.Target()
+
+	if p.testCredential(ctx, info, Credential{Username: "", Password: ""}, session) {
+		banner := "Elasticsearch"
+		session.LogSuccess(i18n.Tr("elasticsearch_service", target, banner))
+		return &ScanResult{
+			Success: true,
+			Type:    plugins.ResultTypeService,
+			Service: "elasticsearch",
+			Banner:  banner,
+		}
+	}
+	return &ScanResult{
+		Success: false,
+		Service: "elasticsearch",
+		Error:   fmt.Errorf("%s", i18n.Tr("service_not_identified", "Elasticsearch")),
+	}
+}
+
+func init() {
+	// 使用高效注册方式：直接传递端口信息，避免实例创建
+	RegisterPluginWithPorts("elasticsearch", func() Plugin {
+		return NewElasticsearchPlugin()
+	}, []int{9200, 9300})
+}

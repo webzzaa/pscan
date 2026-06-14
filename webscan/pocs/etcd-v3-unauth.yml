@@ -1,0 +1,14 @@
+name: ETCD V3未授权
+rules:
+  - method: POST
+    path: /v3/kv/range
+    follow_redirects: false
+    Content-Type: application/json;charset=utf-8
+    expression: |
+      response.status == 200 && response.body.bcontains(b"cluster")  && response.body.bcontains(b"head")
+    body: |
+      {"key": "bmFtZQ=="}
+detail:
+  author: rj45(https://github.com/INT2ECALL)
+  links:
+    - https://networksec.blog.csdn.net/article/details/144912358?spm=1001.2014.3001.5502

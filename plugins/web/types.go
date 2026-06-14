@@ -1,0 +1,31 @@
+﻿package web
+
+import (
+	"context"
+
+	"scanner/core/common"
+	"scanner/core/plugins"
+)
+
+// WebPlugin Web插件接口 - 使用智能HTTP检测，不需要预定义端口
+type WebPlugin interface {
+	Name() string
+	Scan(ctx context.Context, info *common.HostInfo, session *common.ScanSession) *WebScanResult
+}
+
+// WebScanResult Web扫描结果类型别名
+type WebScanResult = plugins.Result
+
+// RegisterWebPlugin 注册Web插件 - 自动标记web类型
+func RegisterWebPlugin(name string, creator func() WebPlugin) {
+	plugins.RegisterWithTypes(name, func() plugins.Plugin {
+		return creator()
+	}, []int{}, []string{plugins.PluginTypeWeb})
+}
+
+// RegisterUnsafeWebPlugin 注册需要显式授权的主动Web插件。
+func RegisterUnsafeWebPlugin(name string, creator func() WebPlugin) {
+	plugins.RegisterUnsafeWithTypes(name, func() plugins.Plugin {
+		return creator()
+	}, []int{}, []string{plugins.PluginTypeWeb})
+}
