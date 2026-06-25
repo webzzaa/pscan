@@ -1,5 +1,5 @@
 name: '魔改构建和发布'
-description: 'fscan 魔改版构建动作（garble 混淆 + UPX 压缩，仅 Windows）'
+description: 'pscan 魔改版构建动作（garble 混淆 + UPX 压缩，仅 Windows）'
 
 inputs:
   mode:
@@ -41,39 +41,39 @@ runs:
     - name: 构建全量版（带混淆）
       shell: bash
       run: |
-        echo "🔨 构建全量版 fscan.exe ..."
-        garble -tiny -literals -seed=random build -ldflags="-s -w -buildid=" -trimpath -o fscan.exe .
-        echo "→ 构建完成: $(ls -lh fscan.exe | awk '{print $5}')"
+        echo "🔨 构建全量版 pscan.exe ..."
+        garble -tiny -literals -seed=random build -ldflags="-s -w -buildid=" -trimpath -o pscan.exe .
+        echo "→ 构建完成: $(ls -lh pscan.exe | awk '{print $5}')"
 
     - name: 构建精简版（带混淆）
       shell: bash
       run: |
-        echo "🔨 构建精简版 fscan-nolocal.exe ..."
-        garble -tiny -literals -seed=random build -tags nolocal -ldflags="-s -w -buildid=" -trimpath -o fscan-nolocal.exe .
-        echo "→ 构建完成: $(ls -lh fscan-nolocal.exe | awk '{print $5}')"
+        echo "🔨 构建精简版 pscan-nolocal.exe ..."
+        garble -tiny -literals -seed=random build -tags nolocal -ldflags="-s -w -buildid=" -trimpath -o pscan-nolocal.exe .
+        echo "→ 构建完成: $(ls -lh pscan-nolocal.exe | awk '{print $5}')"
 
     - name: UPX 压缩全量版
       shell: bash
       run: |
-        echo "📦 UPX 压缩 fscan.exe ..."
-        upx --best --force fscan.exe
-        echo "→ 压缩后: $(ls -lh fscan.exe | awk '{print $5}')"
+        echo "📦 UPX 压缩 pscan.exe ..."
+        upx --best --force pscan.exe
+        echo "→ 压缩后: $(ls -lh pscan.exe | awk '{print $5}')"
 
     - name: UPX 压缩精简版
       shell: bash
       run: |
-        echo "📦 UPX 压缩 fscan-nolocal.exe ..."
-        upx --best --force fscan-nolocal.exe
-        echo "→ 压缩后: $(ls -lh fscan-nolocal.exe | awk '{print $5}')"
+        echo "📦 UPX 压缩 pscan-nolocal.exe ..."
+        upx --best --force pscan-nolocal.exe
+        echo "→ 压缩后: $(ls -lh pscan-nolocal.exe | awk '{print $5}')"
 
     - name: 上传产物
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: fscan-build-${{ inputs.mode }}-${{ github.run_id }}
+        name: pscan-build-${{ inputs.mode }}-${{ github.run_id }}
         path: |
-          fscan.exe
-          fscan-nolocal.exe
+          pscan.exe
+          pscan-nolocal.exe
         retention-days: ${{ inputs.retention-days }}
 
     - name: 生成构建报告
@@ -95,6 +95,6 @@ runs:
 
         {
           echo '```'
-          ls -lh fscan.exe fscan-nolocal.exe 2>/dev/null || echo "(文件未找到)"
+          ls -lh pscan.exe pscan-nolocal.exe 2>/dev/null || echo "(文件未找到)"
           echo '```'
         } >> $GITHUB_STEP_SUMMARY

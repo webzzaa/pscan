@@ -41,7 +41,7 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/') && !inputs.snapshot }}
         with:
           files: |
-            fscan.exe
-            fscan-nolocal.exe
+            pscan.exe
+            pscan-nolocal.exe
           draft: ${{ inputs.draft }}
           generate_release_notes: true
