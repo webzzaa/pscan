@@ -1,0 +1,100 @@
+name: '魔改构建和发布'
+description: 'fscan 魔改版构建动作（garble 混淆 + UPX 压缩，仅 Windows）'
+
+inputs:
+  mode:
+    description: '构建模式: release 或 snapshot'
+    required: true
+    default: 'snapshot'
+  go-version:
+    description: 'Go 版本'
+    required: false
+    default: '1.20'
+  retention-days:
+    description: '产物保留天数'
+    required: false
+    default: '90'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 设置 Go 环境
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.go-version }}
+        cache: true
+
+    - name: 下载依赖
+      shell: bash
+      run: |
+        go mod download
+        go mod verify
+
+    - name: 安装 garble
+      shell: bash
+      run: go install mvdan.cc/garble@latest
+
+    - name: 安装 UPX
+      shell: bash
+      run: choco install upx -y --no-progress
+
+    - name: 构建全量版（带混淆）
+      shell: bash
+      run: |
+        echo "🔨 构建全量版 fscan.exe ..."
+        garble -tiny -literals -seed=random build -ldflags="-s -w -buildid=" -trimpath -o fscan.exe .
+        echo "→ 构建完成: $(ls -lh fscan.exe | awk '{print $5}')"
+
+    - name: 构建精简版（带混淆）
+      shell: bash
+      run: |
+        echo "🔨 构建精简版 fscan-nolocal.exe ..."
+        garble -tiny -literals -seed=random build -tags nolocal -ldflags="-s -w -buildid=" -trimpath -o fscan-nolocal.exe .
+        echo "→ 构建完成: $(ls -lh fscan-nolocal.exe | awk '{print $5}')"
+
+    - name: UPX 压缩全量版
+      shell: bash
+      run: |
+        echo "📦 UPX 压缩 fscan.exe ..."
+        upx --best --force fscan.exe
+        echo "→ 压缩后: $(ls -lh fscan.exe | awk '{print $5}')"
+
+    - name: UPX 压缩精简版
+      shell: bash
+      run: |
+        echo "📦 UPX 压缩 fscan-nolocal.exe ..."
+        upx --best --force fscan-nolocal.exe
+        echo "→ 压缩后: $(ls -lh fscan-nolocal.exe | awk '{print $5}')"
+
+    - name: 上传产物
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: fscan-build-${{ inputs.mode }}-${{ github.run_id }}
+        path: |
+          fscan.exe
+          fscan-nolocal.exe
+        retention-days: ${{ inputs.retention-days }}
+
+    - name: 生成构建报告
+      shell: bash
+      if: always()
+      run: |
+        cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+        # 魔改版构建报告
+
+        | 项目 | 值 |
+        |------|-----|
+        | 模式 | `${{ inputs.mode }}` |
+        | 版本 | `${GITHUB_REF_NAME}` |
+        | 提交 | `${GITHUB_SHA:0:7}` |
+        | Go | `$(go version | awk '{print $3}')` |
+
+        ## 构建产物
+        EOF
+
+        {
+          echo '```'
+          ls -lh fscan.exe fscan-nolocal.exe 2>/dev/null || echo "(文件未找到)"
+          echo '```'
+        } >> $GITHUB_STEP_SUMMARY

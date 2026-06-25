@@ -1,0 +1,763 @@
+﻿# tsk 中文翻译文件
+# 仅包含实际使用的消息（115个）
+
+# ========================= 命令行参数 (71个) =========================
+flag_host:
+  other: "目标主机: IP, IP段, IP段文件, 域名"
+flag_exclude_hosts:
+  other: "排除主机"
+flag_exclude_hosts_file:
+  other: "排除主机文件"
+flag_ports:
+  other: "端口: 默认1000个常用端口"
+flag_exclude_ports:
+  other: "排除端口"
+flag_hosts_file:
+  other: "主机文件"
+flag_ports_file:
+  other: "端口文件"
+flag_scan_mode:
+  other: "扫描模式: all(全部), icmp(存活探测), 或指定插件名称"
+flag_thread_num:
+  other: "端口扫描线程数"
+flag_timeout:
+  other: "端口扫描超时时间"
+flag_module_thread_num:
+  other: "模块线程数"
+flag_global_timeout:
+  other: "全局超时时间"
+flag_disable_ping:
+  other: "禁用ping探测"
+flag_disable_tcp_probe:
+  other: "禁用TCP补充探测"
+flag_debug:
+  other: "开启调试模式，日志写入tsk_debug.log"
+flag_alive_only:
+  other: "仅进行存活探测"
+flag_username:
+  other: "用户名"
+flag_password:
+  other: "密码"
+flag_add_users:
+  other: "额外用户名"
+flag_add_passwords:
+  other: "额外密码"
+flag_users_file:
+  other: "用户名字典文件"
+flag_passwords_file:
+  other: "密码字典文件"
+flag_userpass_file:
+  other: "用户名:密码对文件"
+flag_hash_file:
+  other: "哈希文件"
+flag_hash_value:
+  other: "哈希值"
+flag_domain:
+  other: "域名"
+flag_ssh_key:
+  other: "SSH私钥文件"
+flag_target_url:
+  other: "目标URL"
+flag_urls_file:
+  other: "URL文件"
+flag_cookie:
+  other: "HTTP Cookie"
+flag_web_timeout:
+  other: "Web超时时间"
+flag_max_redirects:
+  other: "HTTP最大重定向次数"
+flag_http_proxy:
+  other: "HTTP代理"
+flag_socks5_proxy:
+  other: "使用SOCKS5代理 (如: 127.0.0.1:1080)"
+flag_iface:
+  other: "指定本地网卡IP地址 (VPN场景，如: 10.8.0.5)"
+flag_poc_path:
+  other: "POC脚本路径"
+flag_poc_name:
+  other: "POC名称"
+flag_poc_full:
+  other: "全量POC扫描"
+flag_dns_log:
+  other: "DNS日志记录"
+flag_poc_num:
+  other: "POC并发数"
+flag_no_poc:
+  other: "禁用POC扫描"
+flag_redis_file:
+  other: "Redis文件"
+flag_redis_shell:
+  other: "Redis Shell"
+flag_redis_write_path:
+  other: "Redis写入路径"
+flag_redis_write_content:
+  other: "Redis写入内容"
+flag_redis_write_file:
+  other: "Redis写入文件"
+flag_disable_redis:
+  other: "禁用Redis利用"
+flag_disable_brute:
+  other: "禁用暴力破解"
+flag_max_retries:
+  other: "最大重试次数"
+flag_packet_rate_limit:
+  other: "每分钟最大发包次数 (0表示不限制)"
+flag_max_packet_count:
+  other: "整个程序最大发包总数 (0表示不限制)"
+flag_icmp_rate:
+  other: "ICMP发包速率 (相对于最大速率的比例，默认0.1，约1463 pps)"
+flag_output_file:
+  other: "输出文件"
+flag_output_format:
+  other: "输出格式: txt, json, csv"
+flag_disable_save:
+  other: "禁用结果保存"
+flag_silent_mode:
+  other: "静默模式"
+flag_no_color:
+  other: "禁用颜色输出"
+flag_log_level:
+  other: "日志级别"
+flag_disable_progress:
+  other: "禁用进度条"
+flag_shellcode:
+  other: "Shellcode"
+flag_reverse_shell_target:
+  other: "反弹Shell目标地址:端口 (如: 192.168.1.100:4444)"
+flag_start_socks5_server:
+  other: "启动SOCKS5代理服务器端口 (如: 1080)"
+flag_forward_shell_port:
+  other: "启动正向Shell服务器端口 (如: 4444)"
+flag_persistence_file:
+  other: "Linux持久化目标文件路径 (支持.elf/.sh文件)"
+flag_win_pe_file:
+  other: "Windows持久化目标PE文件路径 (支持.exe/.dll文件)"
+flag_keylogger_output:
+  other: "键盘记录输出文件路径"
+flag_download_url:
+  other: "要下载的文件URL"
+flag_download_path:
+  other: "下载文件保存路径"
+flag_language:
+  other: "语言: zh, en"
+flag_help:
+  other: "显示帮助信息"
+# ========================= 扫描模式消息 =========================
+scan_mode_service_selected:
+  other: "已选择服务扫描模式"
+scan_mode_alive_selected:
+  other: "已选择存活探测模式"
+scan_mode_local_selected:
+  other: "已选择本地扫描模式"
+scan_mode_web_selected:
+  other: "已选择Web扫描模式"
+scan_info_start:
+  other: "开始信息扫描"
+scan_host_start:
+  other: "开始主机扫描"
+scan_vulnerability_start:
+  other: "开始漏洞扫描"
+scan_no_service_plugins:
+  other: "未找到可用的服务插件"
+
+# ========================= 扫描策略消息 =========================
+scan_strategy_alive_name:
+  other: "存活探测"
+scan_strategy_alive_desc:
+  other: "快速探测主机存活状态"
+scan_strategy_local_name:
+  other: "本地扫描"
+scan_strategy_local_desc:
+  other: "收集本地系统信息"
+scan_strategy_service_name:
+  other: "服务扫描"
+scan_strategy_service_desc:
+  other: "扫描主机服务和漏洞"
+scan_strategy_web_name:
+  other: "Web扫描"
+scan_strategy_web_desc:
+  other: "扫描Web应用漏洞和信息"
+
+# ========================= 存活探测消息 =========================
+scan_alive_start:
+  other: "开始存活探测"
+scan_alive_summary_title:
+  other: "存活探测结果摘要"
+scan_alive_hosts_list:
+  other: "存活主机列表:"
+
+# ========================= 进度消息 =========================
+progress_scanning_description:
+  other: "扫描进度"
+progress_scan_completed:
+  other: "扫描完成:"
+concurrency_plugin:
+  other: "插件"
+concurrency_local_plugin:
+  other: "本地插件"
+concurrency_service_plugin:
+  other: "服务插件"
+concurrency_web_plugin:
+  other: "Web插件"
+
+# ========================= 解析错误消息 =========================
+parse_error_target_empty:
+  other: "目标输入为空"
+parse_error_no_hosts:
+  other: "解析后没有找到有效的目标主机"
+parse_error_empty_input:
+  other: "输入参数为空"
+parse_error_parser_not_init:
+  other: "解析器未初始化"
+target_local_mode:
+  other: "本地扫描模式"
+param_conflict_ao_icmp_both:
+  other: "提示: 同时指定了 -ao 和 -m icmp，两者功能相同，使用存活探测模式"
+
+# ========================= 解析器消息 =========================
+parser_empty_input:
+  other: "输入参数为空"
+parser_file_scan_failed:
+  other: "文件扫描失败"
+parser_username_invalid_chars:
+  other: "用户名包含非法字符"
+parser_password_empty:
+  other: "不允许空密码"
+parser_hash_empty:
+  other: "哈希值为空"
+parser_hash_invalid_format:
+  other: "哈希值格式无效，需要32位十六进制字符"
+
+# ========================= 配置消息 =========================
+config_web_timeout_warning:
+  other: "Web超时时间大于普通超时时间，可能导致不期望的行为"
+
+# ========================= 插件扫描消息 (带参数) =========================
+scan_plugin_not_found:
+  other: "扫描类型 {{.Arg1}} 无对应插件，已跳过"
+
+# ========================= SSH插件消息 =========================
+ssh_key_auth_success:
+  other: "SSH密钥认证成功: {{.Arg1}} [{{.Arg2}}]"
+ssh_pwd_auth_success:
+  other: "SSH密码认证成功: {{.Arg1}} [{{.Arg2}}:{{.Arg3}}]"
+ssh_key_read_failed:
+  other: "读取SSH私钥失败: {{.Arg1}}"
+ssh_service_identified:
+  other: "SSH服务识别成功: {{.Arg1}} - {{.Arg2}}"
+
+# ========================= Redis插件消息 =========================
+redis_unauth_success:
+  other: "Redis未授权访问: {{.Arg1}}"
+redis_service_identified:
+  other: "Redis服务识别成功: {{.Arg1}} - {{.Arg2}}"
+
+# ========================= ICMP相关消息 =========================
+trying_no_listen_icmp:
+  other: "尝试无监听ICMP探测"
+insufficient_privileges:
+  other: "权限不足，无法执行原始ICMP探测"
+switching_to_ping:
+  other: "切换到ping命令模式"
+icmp_listen_failed:
+  other: "ICMP监听失败: {{.Arg1}}"
+icmp_connect_failed:
+  other: "ICMP连接失败: {{.Arg1}}"
+icmp_listener_panic:
+  other: "ICMP监听协程异常: {{.Arg1}}"
+host_alive:
+  other: "{{.Arg1}} 存活 (协议: {{.Arg2}})"
+proxy_mode_disable_icmp:
+  other: "检测到代理模式，自动禁用ICMP扫描"
+segment_16_alive:
+  other: "{{.Arg1}}.0.0/16 网段存活: {{.Arg2}}"
+segment_24_alive:
+  other: "{{.Arg1}}.0/24 网段存活: {{.Arg2}}"
+tcp_probe_low_icmp_rate:
+  other: "ICMP响应率过低({{.Arg1}})，启用TCP补充探测({{.Arg2}}个主机)"
+tcp_probe_found:
+  other: "TCP补充探测发现 {{.Arg1}} 个存活主机"
+
+# ========================= 存活扫描统计消息 =========================
+parse_target_failed:
+  other: "解析目标失败: {{.Arg1}}"
+alive_scan_start_single:
+  other: "开始存活扫描: {{.Arg1}}"
+alive_scan_start_multi:
+  other: "开始存活扫描: {{.Arg1}}个目标 (首个: {{.Arg2}})"
+alive_total_hosts:
+  other: "总主机数: {{.Arg1}}"
+alive_hosts_count:
+  other: "存活主机: {{.Arg1}}"
+alive_dead_hosts:
+  other: "死亡主机: {{.Arg1}}"
+alive_success_rate:
+  other: "成功率: {{.Arg1}}"
+alive_scan_duration:
+  other: "扫描耗时: {{.Arg1}}"
+alive_host_item:
+  other: "  [{{.Arg1}}] {{.Arg2}}"
+
+# ========================= 扫描器消息 =========================
+http_client_init_failed:
+  other: "HTTP客户端初始化失败: {{.Arg1}}"
+active_reverse_shell:
+  other: "检测到活跃的反弹Shell，保持程序运行..."
+active_socks5_proxy:
+  other: "检测到活跃的SOCKS5代理，保持程序运行..."
+active_forward_shell:
+  other: "检测到活跃的正向Shell，保持程序运行..."
+press_ctrl_c_exit:
+  other: "按 Ctrl+C 退出程序"
+received_exit_signal:
+  other: "收到退出信号，正在关闭..."
+scan_task_complete:
+  other: "扫描任务完成，耗时 {{.Arg1}}，已扫描 {{.Arg2}} 个目标"
+plugin_panic:
+  other: "插件 {{.Arg1}} 扫描 {{.Arg2}}:{{.Arg3}} 时panic: {{.Arg4}}"
+plugin_scan_error:
+  other: "插件扫描错误 {{.Arg1}}:{{.Arg2}} - {{.Arg3}}"
+brute_no_weak_pass:
+  other: "{{.Arg1}}:{{.Arg2}} {{.Arg3}} 未发现弱密码"
+
+# ========================= 端口扫描消息 =========================
+invalid_port:
+  other: "无效端口: {{.Arg1}}"
+port_scan_start:
+  other: "开始端口扫描，共 {{.Arg1}} 个任务，预计耗时 {{.Arg2}} 秒（{{.Arg3}} 分钟）"
+thread_pool_create_failed:
+  other: "创建线程池失败: {{.Arg1}}"
+port_scan_complete:
+  other: "扫描完成，发现 {{.Arg1}} 个开放端口"
+scan_failure_rate_high:
+  other: "扫描失败率过高: {{.Arg1}} ({{.Arg2}}/{{.Arg3}}失败)"
+scan_failure_reason:
+  other: "可能原因: 线程数过高导致资源耗尽"
+scan_reduce_threads_suggestion:
+  other: "建议: 降低线程数(当前{{.Arg1}})到50-100，或增加系统ulimit"
+scan_partial_failure:
+  other: "部分端口扫描失败: {{.Arg1}} ({{.Arg2}}/{{.Arg3}})"
+scan_reduce_threads_accuracy:
+  other: "建议: 降低线程数(当前{{.Arg1}})以提高准确性"
+resource_exhausted_warning:
+  other: "资源耗尽错误 {{.Arg1}} 次，建议降低线程数(-t)或增加ulimit"
+port_open:
+  other: "端口开放 {{.Arg1}}"
+port_open_http:
+  other: "端口开放 {{.Arg1}} [http](HTTP探测)"
+port_scan_no_alive_subnet:
+  other: "网段预筛未发现存活子网，跳过端口扫描"
+
+# ========================= 本地扫描消息 =========================
+local_plugin_info:
+  other: "本地插件: {{.Arg1}}"
+local_plugin_not_specified:
+  other: "本地插件: 未指定"
+local_plugin_not_found:
+  other: "错误: 本地插件 '{{.Arg1}}' 不存在或在当前平台不可用"
+
+# ========================= 服务扫描消息 =========================
+service_plugin_info:
+  other: "服务插件: {{.Arg1}}"
+service_plugin_custom:
+  other: "服务插件: 自定义指定 ({{.Arg1}})"
+service_plugin_none:
+  other: "服务插件: 无可用插件"
+port_out_of_range:
+  other: "端口超出范围: {{.Arg1}} (有效范围: 1-65535)"
+invalid_target_format:
+  other: "无效的目标格式: {{.Arg1}}"
+host_port_invalid:
+  other: "主机 {{.Arg1}} 端口格式非法: {{.Arg2}}"
+host_port_out_of_range:
+  other: "主机 {{.Arg1}} 端口超出范围: {{.Arg2}} (有效范围: 1-65535)"
+alive_hosts_count_info:
+  other: "存活主机数: {{.Arg1}}"
+alive_ports_count:
+  other: "存活端口数: {{.Arg1}}"
+
+# ========================= Web扫描消息 =========================
+http_proxy_config_error:
+  other: "HTTP代理配置错误: {{.Arg1}}"
+socks5_not_supported_web:
+  other: "Web检测暂不支持SOCKS5代理，建议使用HTTP代理(-proxy)"
+url_parse_failed:
+  other: "解析URL失败: {{.Arg1}} - {{.Arg2}}"
+invalid_scan_target:
+  other: "无效的扫描目标"
+poc_load_failed:
+  other: "POC加载失败，无法执行扫描"
+
+# ========================= 基础扫描策略消息 =========================
+plugins_custom_specified:
+  other: "{{.Arg1}}: 自定义指定 ({{.Arg2}})"
+plugins_info:
+  other: "{{.Arg1}}: {{.Arg2}}"
+plugins_none:
+  other: "{{.Arg1}}: 无可用插件"
+start_local_scan:
+  other: "开始本地扫描"
+start_service_scan:
+  other: "开始服务扫描"
+start_web_scan:
+  other: "开始Web扫描"
+start_scan:
+  other: "开始扫描"
+
+# ========================= 服务插件通用消息 =========================
+# 格式: {service}_{type} - type: credential/unauth/service/vuln
+ldap_credential:
+  other: "LDAP {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+ldap_hash_credential:
+  other: "LDAP {{.Arg1}} {{.Arg2}}\\{{.Arg3}} [Hash:{{.Arg4}}]"
+ldap_service:
+  other: "LDAP {{.Arg1}} {{.Arg2}}"
+kafka_credential:
+  other: "Kafka {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+kafka_service:
+  other: "Kafka {{.Arg1}} {{.Arg2}}"
+ftp_service:
+  other: "FTP {{.Arg1}} {{.Arg2}}"
+rdp_service:
+  other: "RDP {{.Arg1}} {{.Arg2}}"
+activemq_credential:
+  other: "ActiveMQ {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+activemq_service:
+  other: "ActiveMQ {{.Arg1}} {{.Arg2}}"
+telnet_credential:
+  other: "Telnet {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+telnet_service:
+  other: "Telnet {{.Arg1}} {{.Arg2}}"
+telnet_unauth_rce:
+  other: "Telnet {{.Arg1}} 未授权访问且可执行命令 [{{.Arg2}}] {{.Arg3}}"
+telnet_credential_rce:
+  other: "Telnet {{.Arg1}} {{.Arg2}}:{{.Arg3}} 命令执行验证成功 [{{.Arg4}}] {{.Arg5}}"
+telnet_cve202624061:
+  other: "Telnet {{.Arg1}} CVE-2026-24061 Telnet认证绕过 (用户: {{.Arg2}}) {{.Arg3}}"
+cassandra_credential:
+  other: "Cassandra {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+cassandra_service:
+  other: "Cassandra {{.Arg1}} {{.Arg2}}"
+cassandra_unauth:
+  other: "Cassandra {{.Arg1}} 无需认证"
+vnc_unauth:
+  other: "VNC {{.Arg1}} 未授权访问"
+vnc_credential:
+  other: "VNC {{.Arg1}} 密码: {{.Arg2}}"
+smtp_credential:
+  other: "SMTP {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+smtp_service:
+  other: "SMTP {{.Arg1}} {{.Arg2}}"
+mongodb_unauth:
+  other: "MongoDB {{.Arg1}} 未授权访问"
+mongodb_credential:
+  other: "MongoDB {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mongodb_auth_required:
+  other: "MongoDB {{.Arg1}} 需要认证"
+elasticsearch_credential:
+  other: "Elasticsearch {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+elasticsearch_unauth:
+  other: "Elasticsearch {{.Arg1}} 未授权访问"
+elasticsearch_service:
+  other: "Elasticsearch {{.Arg1}} {{.Arg2}}"
+mysql_credential:
+  other: "MySQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mysql_service:
+  other: "MySQL {{.Arg1}} {{.Arg2}}"
+memcached_unauth:
+  other: "Memcached {{.Arg1}} 未授权访问"
+memcached_service:
+  other: "Memcached {{.Arg1}} {{.Arg2}}"
+rsync_credential:
+  other: "Rsync {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+rsync_service:
+  other: "Rsync {{.Arg1}} {{.Arg2}}"
+oracle_credential:
+  other: "Oracle {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+oracle_service:
+  other: "Oracle {{.Arg1}} {{.Arg2}}"
+oracle_default_account:
+  other: "Oracle {{.Arg1}} 默认账户: {{.Arg2}}:{{.Arg3}}"
+postgresql_credential:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+postgresql_service:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}"
+postgresql_vuln:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}"
+smb_service:
+  other: "SMB {{.Arg1}} {{.Arg2}}"
+rabbitmq_credential:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+rabbitmq_service:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}"
+neo4j_unauth:
+  other: "Neo4j {{.Arg1}} 未授权访问"
+neo4j_credential:
+  other: "Neo4j {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+neo4j_service:
+  other: "Neo4j {{.Arg1}} {{.Arg2}}"
+mssql_credential:
+  other: "MSSQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mssql_service:
+  other: "MSSQL {{.Arg1}} {{.Arg2}}"
+
+# ========================= 漏洞检测消息 =========================
+smbghost_vuln:
+  other: "SMB Ghost {{.Arg1}} CVE-2020-0796 漏洞存在"
+ms17010_start:
+  other: "MS17-010利用开始: {{.Arg1}}"
+ms17010_complete:
+  other: "MS17-010利用完成: {{.Arg1}}"
+ms17010_shellcode_complete:
+  other: "{{.Arg1}} MS17-010漏洞利用完成 (Shellcode长度: {{.Arg2}})"
+ms17010_protocol_decrypt_error:
+  other: "协议请求解密错误: {{.Arg1}}"
+ms17010_protocol_decode_error:
+  other: "协议请求解码错误: {{.Arg1}}"
+ms17010_session_decrypt_error:
+  other: "会话请求解密错误: {{.Arg1}}"
+ms17010_session_decode_error:
+  other: "会话请求解码错误: {{.Arg1}}"
+ms17010_connect_decrypt_error:
+  other: "连接请求解密错误: {{.Arg1}}"
+ms17010_connect_decode_error:
+  other: "连接请求解码错误: {{.Arg1}}"
+ms17010_pipe_decrypt_error:
+  other: "管道请求解密错误: {{.Arg1}}"
+ms17010_pipe_decode_error:
+  other: "管道请求解码错误: {{.Arg1}}"
+
+# ========================= Redis插件消息 =========================
+redis_reconnect_failed:
+  other: "重新连接Redis失败: {{.Arg1}}"
+redis_config_failed:
+  other: "获取Redis配置失败: {{.Arg1}}"
+redis_write_failed:
+  other: "文件写入失败: {{.Arg1}}"
+redis_write_success:
+  other: "成功写入文件: {{.Arg1}}"
+redis_read_failed:
+  other: "读取本地文件失败: {{.Arg1}}"
+redis_file_write_success:
+  other: "成功将文件 {{.Arg1}} 的内容写入到 {{.Arg2}}"
+redis_ssh_key_failed:
+  other: "SSH密钥写入失败: {{.Arg1}}"
+redis_ssh_key_success:
+  other: "SSH密钥写入成功"
+redis_cron_failed:
+  other: "定时任务写入失败: {{.Arg1}}"
+redis_cron_success:
+  other: "定时任务写入成功"
+redis_restore_failed:
+  other: "恢复数据库配置失败: {{.Arg1}}"
+
+# ========================= 本地插件消息 =========================
+# 计划任务持久化
+crontask_success:
+  other: "计划任务持久化完成: {{.Arg1}}个方法成功"
+
+# 键盘记录
+keylogger_success:
+  other: "键盘记录完成，捕获了 {{.Arg1}} 个键盘事件"
+keylogger_save_failed:
+  other: "保存键盘记录失败: {{.Arg1}}"
+keylogger_no_input:
+  other: "没有捕获到键盘输入"
+
+# 环境变量信息
+envinfo_sensitive:
+  other: "发现敏感环境变量: {{.Arg1}}"
+
+# Windows WMI
+winwmi_success:
+  other: "Windows WMI事件订阅持久化完成: {{.Arg1}}个项目"
+
+# 痕迹清理
+cleaner_success:
+  other: "痕迹清理完成: {{.Arg1}}个文件, {{.Arg2}}个系统条目"
+cleaner_history_found:
+  other: "发现历史文件: {{.Arg1}} (需手动清理相关条目)"
+
+# 文件下载
+downloader_success:
+  other: "文件下载完成: {{.Arg1}} -> {{.Arg2}} (大小: {{.Arg3}} bytes)"
+
+# 正向Shell
+forwardshell_complete:
+  other: "正向Shell服务完成 - 端口: {{.Arg1}}"
+forwardshell_started:
+  other: "正向Shell服务器已在 0.0.0.0:{{.Arg1}} 上启动"
+forwardshell_accept_failed:
+  other: "接受连接失败: {{.Arg1}}"
+forwardshell_client_connected:
+  other: "客户端连接来自: {{.Arg1}}"
+forwardshell_read_failed:
+  other: "读取客户端命令失败: {{.Arg1}}"
+
+# AV检测
+avdetect_load_failed:
+  other: "加载AV数据库失败: {{.Arg1}}"
+avdetect_loaded:
+  other: "加载了 {{.Arg1}} 个AV产品信息"
+avdetect_found:
+  other: "检测到AV: {{.Arg1}} ({{.Arg2}}个进程)"
+avdetect_process:
+  other: "  - {{.Arg1}}"
+
+# Windows启动文件夹
+winstartup_success:
+  other: "Windows启动文件夹持久化完成: {{.Arg1}}个方法"
+
+# 文件信息
+fileinfo_sensitive:
+  other: "发现敏感文件: {{.Arg1}}"
+fileinfo_potential:
+  other: "发现潜在敏感文件: {{.Arg1}}"
+
+# 域控信息
+dcinfo_not_joined:
+  other: "当前计算机未加入域环境"
+dcinfo_success:
+  other: "域控制器信息收集完成: {{.Arg1}}个类别成功"
+
+# Windows服务
+winservice_success:
+  other: "Windows服务持久化完成: {{.Arg1}}个项目"
+
+# Shell环境变量
+shellenv_success:
+  other: "Shell环境变量持久化完成: {{.Arg1}}个方法成功"
+
+# LD_PRELOAD
+ldpreload_success:
+  other: "LD_PRELOAD持久化完成: {{.Arg1}}个方法成功"
+
+# SOCKS5代理
+socks5_starting:
+  other: "在端口 {{.Arg1}} 上启动SOCKS5代理"
+socks5_complete:
+  other: "SOCKS5代理完成 - 端口: {{.Arg1}}"
+socks5_started:
+  other: "SOCKS5代理服务器已在 127.0.0.1:{{.Arg1}} 上启动"
+socks5_cancelled:
+  other: "SOCKS5代理服务器被上下文取消"
+socks5_accept_failed:
+  other: "接受连接失败: {{.Arg1}}"
+socks5_handshake_failed:
+  other: "SOCKS5握手失败: {{.Arg1}}"
+socks5_request_failed:
+  other: "SOCKS5请求处理失败: {{.Arg1}}"
+socks5_connected:
+  other: "建立SOCKS5代理连接"
+
+# 反弹Shell
+reverseshell_complete:
+  other: "反弹Shell完成 - 目标: {{.Arg1}}"
+reverseshell_connected:
+  other: "反弹Shell已连接到 {{.Arg1}}:{{.Arg2}}"
+
+# Systemd服务
+systemdservice_success:
+  other: "系统服务持久化完成: {{.Arg1}}个方法成功"
+
+# 系统信息
+systeminfo_start:
+  other: "开始系统信息收集"
+systeminfo_os:
+  other: "操作系统: {{.Arg1}}"
+systeminfo_arch:
+  other: "架构: {{.Arg1}}"
+systeminfo_cpu:
+  other: "CPU核心数: {{.Arg1}}"
+systeminfo_hostname:
+  other: "主机名: {{.Arg1}}"
+systeminfo_user:
+  other: "当前用户: {{.Arg1}}"
+systeminfo_homedir:
+  other: "用户目录: {{.Arg1}}"
+systeminfo_workdir:
+  other: "工作目录: {{.Arg1}}"
+systeminfo_tempdir:
+  other: "临时目录: {{.Arg1}}"
+systeminfo_pathcount:
+  other: "PATH变量条目: {{.Arg1}}个"
+systeminfo_winver:
+  other: "Windows版本: {{.Arg1}}"
+systeminfo_domain:
+  other: "用户域: {{.Arg1}}"
+systeminfo_kernel:
+  other: "系统内核: {{.Arg1}}"
+systeminfo_distro:
+  other: "发行版: {{.Arg1}}"
+systeminfo_distro_exists:
+  other: "发行版: /etc/os-release 存在"
+systeminfo_whoami:
+  other: "当前用户(whoami): {{.Arg1}}"
+
+# Windows计划任务
+winschtask_success:
+  other: "Windows计划任务持久化完成: {{.Arg1}}个项目"
+
+# Windows注册表
+winregistry_success:
+  other: "Windows注册表持久化完成: {{.Arg1}}个项目"
+
+# Minidump
+minidump_panic:
+  other: "minidump插件发生panic: {{.Arg1}}"
+minidump_success:
+  other: "成功将lsass.exe内存转储到文件: {{.Arg1}} (大小: {{.Arg2}} bytes)"
+
+# ========================= WebScan消息 =========================
+webscan_target_url_failed:
+  other: "构建目标URL失败: {{.Arg1}}"
+webscan_invalid_url:
+  other: "{{.Arg1}} {{.Arg2}}: {{.Arg3}}"
+webscan_request_create_failed:
+  other: "创建HTTP请求失败: {{.Arg1}}"
+webscan_builtin_poc_failed:
+  other: "加载内置POC目录失败: {{.Arg1}}"
+webscan_poc_dir_not_exist:
+  other: "POC目录不存在: {{.Arg1}}"
+webscan_poc_dir_walk_failed:
+  other: "遍历POC目录失败: {{.Arg1}}"
+webscan_rule_match_error:
+  other: "规则匹配错误 [{{.Arg1}}]: {{.Arg2}}"
+webscan_poc_exec_error:
+  other: "执行POC错误 {{.Arg1}}: {{.Arg2}}"
+webscan_set_exec_error:
+  other: "设置项执行错误 {{.Arg1}}: {{.Arg2}}"
+webscan_regex_compile_error:
+  other: "正则编译错误: {{.Arg1}}"
+webscan_reverse_url_error:
+  other: "反连URL解析错误: {{.Arg1}}"
+webscan_cel_syntax_error:
+  other: "CEL语法错误 [{{.Arg1}}]: {{.Arg2}}"
+webscan_cel_init_failed:
+  other: "初始化基础CEL环境失败: {{.Arg1}}"
+webscan_request_restricted:
+  other: "POC HTTP请求 {{.Arg1}} 受限: {{.Arg2}}"
+webscan_response_parse_failed:
+  other: "响应解析失败: {{.Arg1}}"
+
+# Main 入口
+param_error:
+  other: "参数错误: {{.Arg1}}"
+error_generic:
+  other: "错误: {{.Arg1}}"
+init_failed:
+  other: "初始化失败: {{.Arg1}}"
+poc_load_complete:
+  other: "POC加载完成: 总共{{.Arg1}}个，成功{{.Arg2}}个，失败{{.Arg3}}个"
+redis_scan_success:
+  other: "Redis {{.Arg1}} {{.Arg2}}"
+rabbitmq_detected:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}"
+
+# ========================= Web UI消息 =========================
+web_server_started:
+  other: "Web服务器已启动，端口: {{.Arg1}}"
+web_shutting_down:
+  other: "Web服务器正在关闭..."
+web_mode_not_supported:
+  other: "当前版本不支持Web模式，请使用 -tags web 重新编译"

@@ -1,0 +1,26 @@
+id: test-nuclei-example
+info:
+  name: Test Nuclei Example Template
+  author: tsk-dev
+  severity: info
+  description: |
+    This is a test template to demonstrate Nuclei format support in tsk.
+    It will be automatically converted to tsk format during loading.
+  reference:
+    - https://example.com/tsk
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/robots.txt"
+
+    matchers:
+      - type: word
+        words:
+          - "User-agent"
+          - "Disallow"
+        condition: and
+
+      - type: status
+        status:
+          - 200

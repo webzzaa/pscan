@@ -1,0 +1,763 @@
+﻿# tsk English translation file
+# Contains only actually used messages (115)
+
+# ========================= Command Line Arguments (71) =========================
+flag_host:
+  other: "Target host: IP, IP range, IP file, domain"
+flag_exclude_hosts:
+  other: "Exclude hosts"
+flag_exclude_hosts_file:
+  other: "Exclude hosts file"
+flag_ports:
+  other: "Ports: default 1000 common ports"
+flag_exclude_ports:
+  other: "Exclude ports"
+flag_hosts_file:
+  other: "Hosts file"
+flag_ports_file:
+  other: "Ports file"
+flag_scan_mode:
+  other: "Scan mode: all(all plugins), icmp(alive detection), or specific plugin names"
+flag_thread_num:
+  other: "Port scan thread count"
+flag_timeout:
+  other: "Port scan timeout"
+flag_module_thread_num:
+  other: "Module thread count"
+flag_global_timeout:
+  other: "Global timeout"
+flag_disable_ping:
+  other: "Disable ping detection"
+flag_disable_tcp_probe:
+  other: "Disable TCP supplementary probe"
+flag_debug:
+  other: "Enable debug mode, write logs to tsk_debug.log"
+flag_alive_only:
+  other: "Alive detection only"
+flag_username:
+  other: "Username"
+flag_password:
+  other: "Password"
+flag_add_users:
+  other: "Additional usernames"
+flag_add_passwords:
+  other: "Additional passwords"
+flag_users_file:
+  other: "Username dictionary file"
+flag_passwords_file:
+  other: "Password dictionary file"
+flag_userpass_file:
+  other: "Username:password pairs file"
+flag_hash_file:
+  other: "Hash file"
+flag_hash_value:
+  other: "Hash value"
+flag_domain:
+  other: "Domain name"
+flag_ssh_key:
+  other: "SSH private key file"
+flag_target_url:
+  other: "Target URL"
+flag_urls_file:
+  other: "URLs file"
+flag_cookie:
+  other: "HTTP Cookie"
+flag_web_timeout:
+  other: "Web timeout"
+flag_max_redirects:
+  other: "Maximum HTTP redirects"
+flag_http_proxy:
+  other: "HTTP proxy"
+flag_socks5_proxy:
+  other: "Use SOCKS5 proxy (e.g.: 127.0.0.1:1080)"
+flag_iface:
+  other: "Specify local interface IP address (VPN scenario, e.g.: 10.8.0.5)"
+flag_poc_path:
+  other: "POC script path"
+flag_poc_name:
+  other: "POC name"
+flag_poc_full:
+  other: "Full POC scan"
+flag_dns_log:
+  other: "DNS logging"
+flag_poc_num:
+  other: "POC concurrency"
+flag_no_poc:
+  other: "Disable POC scan"
+flag_redis_file:
+  other: "Redis file"
+flag_redis_shell:
+  other: "Redis Shell"
+flag_redis_write_path:
+  other: "Redis write path"
+flag_redis_write_content:
+  other: "Redis write content"
+flag_redis_write_file:
+  other: "Redis write file"
+flag_disable_redis:
+  other: "Disable Redis exploitation"
+flag_disable_brute:
+  other: "Disable brute force"
+flag_max_retries:
+  other: "Maximum retries"
+flag_packet_rate_limit:
+  other: "Maximum packets per minute (0 means no limit)"
+flag_max_packet_count:
+  other: "Maximum total packet count for entire program (0 means no limit)"
+flag_icmp_rate:
+  other: "ICMP packet rate (ratio to max rate, default 0.1, ~1463 pps)"
+flag_output_file:
+  other: "Output file"
+flag_output_format:
+  other: "Output format: txt, json, csv"
+flag_disable_save:
+  other: "Disable result saving"
+flag_silent_mode:
+  other: "Silent mode"
+flag_no_color:
+  other: "Disable color output"
+flag_log_level:
+  other: "Log level"
+flag_disable_progress:
+  other: "Disable progress bar"
+flag_shellcode:
+  other: "Shellcode"
+flag_reverse_shell_target:
+  other: "Reverse shell target address:port (e.g.: 192.168.1.100:4444)"
+flag_start_socks5_server:
+  other: "Start SOCKS5 proxy server on port (e.g.: 1080)"
+flag_forward_shell_port:
+  other: "Start forward shell server on port (e.g.: 4444)"
+flag_persistence_file:
+  other: "Linux persistence target file path (supports .elf/.sh files)"
+flag_win_pe_file:
+  other: "Windows persistence target PE file path (supports .exe/.dll files)"
+flag_keylogger_output:
+  other: "Keylogger output file path"
+flag_download_url:
+  other: "URL of the file to download"
+flag_download_path:
+  other: "Save path for downloaded file"
+flag_language:
+  other: "Language: zh, en"
+flag_help:
+  other: "Show help information"
+# ========================= Scan Mode Messages =========================
+scan_mode_service_selected:
+  other: "Service scan mode selected"
+scan_mode_alive_selected:
+  other: "Alive detection mode selected"
+scan_mode_local_selected:
+  other: "Local scan mode selected"
+scan_mode_web_selected:
+  other: "Web scan mode selected"
+scan_info_start:
+  other: "Starting information scan"
+scan_host_start:
+  other: "Starting host scan"
+scan_vulnerability_start:
+  other: "Starting vulnerability scan"
+scan_no_service_plugins:
+  other: "No available service plugins found"
+
+# ========================= Scan Strategy Messages =========================
+scan_strategy_alive_name:
+  other: "Alive Detection"
+scan_strategy_alive_desc:
+  other: "Fast detection of host alive status"
+scan_strategy_local_name:
+  other: "Local Scan"
+scan_strategy_local_desc:
+  other: "Collect local system information"
+scan_strategy_service_name:
+  other: "Service Scan"
+scan_strategy_service_desc:
+  other: "Scan host services and vulnerabilities"
+scan_strategy_web_name:
+  other: "Web Scan"
+scan_strategy_web_desc:
+  other: "Scan web application vulnerabilities and information"
+
+# ========================= Alive Detection Messages =========================
+scan_alive_start:
+  other: "Starting alive detection"
+scan_alive_summary_title:
+  other: "Alive Detection Summary"
+scan_alive_hosts_list:
+  other: "Alive hosts list:"
+
+# ========================= Progress Messages =========================
+progress_scanning_description:
+  other: "Scanning Progress"
+progress_scan_completed:
+  other: "Scan Completed:"
+concurrency_plugin:
+  other: "Plugins"
+concurrency_local_plugin:
+  other: "Local Plugins"
+concurrency_service_plugin:
+  other: "Service Plugins"
+concurrency_web_plugin:
+  other: "Web Plugins"
+
+# ========================= Parse Error Messages =========================
+parse_error_target_empty:
+  other: "Target input is empty"
+parse_error_no_hosts:
+  other: "No valid target hosts found after parsing"
+parse_error_empty_input:
+  other: "Input parameters are empty"
+parse_error_parser_not_init:
+  other: "Parser not initialized"
+target_local_mode:
+  other: "Local scan mode"
+param_conflict_ao_icmp_both:
+  other: "Note: Both -ao and -m icmp specified, both enable alive detection mode"
+
+# ========================= Parser Messages =========================
+parser_empty_input:
+  other: "Input parameters are empty"
+parser_file_scan_failed:
+  other: "File scan failed"
+parser_username_invalid_chars:
+  other: "Username contains invalid characters"
+parser_password_empty:
+  other: "Empty passwords not allowed"
+parser_hash_empty:
+  other: "Hash value is empty"
+parser_hash_invalid_format:
+  other: "Invalid hash format, requires 32-character hexadecimal"
+
+# ========================= Config Messages =========================
+config_web_timeout_warning:
+  other: "Web timeout is larger than normal timeout, may cause unexpected behavior"
+
+# ========================= Plugin Scan Messages (with parameters) =========================
+scan_plugin_not_found:
+  other: "No plugin found for scan type {{.Arg1}}, skipped"
+
+# ========================= SSH Plugin Messages =========================
+ssh_key_auth_success:
+  other: "SSH key authentication successful: {{.Arg1}} [{{.Arg2}}]"
+ssh_pwd_auth_success:
+  other: "SSH password authentication successful: {{.Arg1}} [{{.Arg2}}:{{.Arg3}}]"
+ssh_key_read_failed:
+  other: "Failed to read SSH private key: {{.Arg1}}"
+ssh_service_identified:
+  other: "SSH service identified: {{.Arg1}} - {{.Arg2}}"
+
+# ========================= Redis Plugin Messages =========================
+redis_unauth_success:
+  other: "Redis unauthorized access: {{.Arg1}}"
+redis_service_identified:
+  other: "Redis service identified: {{.Arg1}} - {{.Arg2}}"
+
+# ========================= ICMP Messages =========================
+trying_no_listen_icmp:
+  other: "Trying no-listen ICMP detection"
+insufficient_privileges:
+  other: "Insufficient privileges for raw ICMP detection"
+switching_to_ping:
+  other: "Switching to ping command mode"
+icmp_listen_failed:
+  other: "ICMP listen failed: {{.Arg1}}"
+icmp_connect_failed:
+  other: "ICMP connect failed: {{.Arg1}}"
+icmp_listener_panic:
+  other: "ICMP listener goroutine panic: {{.Arg1}}"
+host_alive:
+  other: "{{.Arg1}} alive (protocol: {{.Arg2}})"
+proxy_mode_disable_icmp:
+  other: "Proxy mode detected, disabling ICMP scan"
+segment_16_alive:
+  other: "{{.Arg1}}.0.0/16 segment alive: {{.Arg2}}"
+segment_24_alive:
+  other: "{{.Arg1}}.0/24 segment alive: {{.Arg2}}"
+tcp_probe_low_icmp_rate:
+  other: "Low ICMP response rate ({{.Arg1}}), enabling TCP supplementary probe ({{.Arg2}} hosts)"
+tcp_probe_found:
+  other: "TCP probe found {{.Arg1}} alive hosts"
+
+# ========================= Alive Scan Stats Messages =========================
+parse_target_failed:
+  other: "Parse target failed: {{.Arg1}}"
+alive_scan_start_single:
+  other: "Starting alive scan: {{.Arg1}}"
+alive_scan_start_multi:
+  other: "Starting alive scan: {{.Arg1}} targets (first: {{.Arg2}})"
+alive_total_hosts:
+  other: "Total hosts: {{.Arg1}}"
+alive_hosts_count:
+  other: "Alive hosts: {{.Arg1}}"
+alive_dead_hosts:
+  other: "Dead hosts: {{.Arg1}}"
+alive_success_rate:
+  other: "Success rate: {{.Arg1}}"
+alive_scan_duration:
+  other: "Scan duration: {{.Arg1}}"
+alive_host_item:
+  other: "  [{{.Arg1}}] {{.Arg2}}"
+
+# ========================= Scanner Messages =========================
+http_client_init_failed:
+  other: "HTTP client initialization failed: {{.Arg1}}"
+active_reverse_shell:
+  other: "Active reverse shell detected, keeping program running..."
+active_socks5_proxy:
+  other: "Active SOCKS5 proxy detected, keeping program running..."
+active_forward_shell:
+  other: "Active forward shell detected, keeping program running..."
+press_ctrl_c_exit:
+  other: "Press Ctrl+C to exit"
+received_exit_signal:
+  other: "Received exit signal, shutting down..."
+scan_task_complete:
+  other: "Scan task complete, duration {{.Arg1}}, scanned {{.Arg2}} targets"
+plugin_panic:
+  other: "Plugin {{.Arg1}} panic while scanning {{.Arg2}}:{{.Arg3}}: {{.Arg4}}"
+plugin_scan_error:
+  other: "Plugin scan error {{.Arg1}}:{{.Arg2}} - {{.Arg3}}"
+brute_no_weak_pass:
+  other: "{{.Arg1}}:{{.Arg2}} {{.Arg3}} no weak password found"
+
+# ========================= Port Scan Messages =========================
+invalid_port:
+  other: "Invalid port: {{.Arg1}}"
+port_scan_start:
+  other: "Starting port scan, {{.Arg1}} tasks, estimated {{.Arg2}} seconds ({{.Arg3}} minutes)"
+thread_pool_create_failed:
+  other: "Failed to create thread pool: {{.Arg1}}"
+port_scan_complete:
+  other: "Scan complete, found {{.Arg1}} open ports"
+scan_failure_rate_high:
+  other: "Scan failure rate too high: {{.Arg1}} ({{.Arg2}}/{{.Arg3}} failed)"
+scan_failure_reason:
+  other: "Possible reason: Thread count too high causing resource exhaustion"
+scan_reduce_threads_suggestion:
+  other: "Suggestion: Reduce thread count (current {{.Arg1}}) to 50-100, or increase system ulimit"
+scan_partial_failure:
+  other: "Partial port scan failure: {{.Arg1}} ({{.Arg2}}/{{.Arg3}})"
+scan_reduce_threads_accuracy:
+  other: "Suggestion: Reduce thread count (current {{.Arg1}}) to improve accuracy"
+resource_exhausted_warning:
+  other: "Resource exhausted errors {{.Arg1}} times, suggest reducing thread count (-t) or increase ulimit"
+port_open:
+  other: "Port open {{.Arg1}}"
+port_open_http:
+  other: "Port open {{.Arg1}} [http](HTTP probe)"
+port_scan_no_alive_subnet:
+  other: "Subnet probe found no alive subnets, skipping port scan"
+
+# ========================= Local Scan Messages =========================
+local_plugin_info:
+  other: "Local plugin: {{.Arg1}}"
+local_plugin_not_specified:
+  other: "Local plugin: Not specified"
+local_plugin_not_found:
+  other: "Error: Local plugin '{{.Arg1}}' does not exist or is not available on current platform"
+
+# ========================= Service Scan Messages =========================
+service_plugin_info:
+  other: "Service plugins: {{.Arg1}}"
+service_plugin_custom:
+  other: "Service plugins: Custom specified ({{.Arg1}})"
+service_plugin_none:
+  other: "Service plugins: None available"
+port_out_of_range:
+  other: "Port out of range: {{.Arg1}} (valid range: 1-65535)"
+invalid_target_format:
+  other: "Invalid target format: {{.Arg1}}"
+host_port_invalid:
+  other: "Host {{.Arg1}} port format invalid: {{.Arg2}}"
+host_port_out_of_range:
+  other: "Host {{.Arg1}} port out of range: {{.Arg2}} (valid range: 1-65535)"
+alive_hosts_count_info:
+  other: "Alive hosts count: {{.Arg1}}"
+alive_ports_count:
+  other: "Alive ports count: {{.Arg1}}"
+
+# ========================= Web Scan Messages =========================
+http_proxy_config_error:
+  other: "HTTP proxy configuration error: {{.Arg1}}"
+socks5_not_supported_web:
+  other: "Web detection does not support SOCKS5 proxy, recommend using HTTP proxy (-proxy)"
+url_parse_failed:
+  other: "Failed to parse URL: {{.Arg1}} - {{.Arg2}}"
+invalid_scan_target:
+  other: "Invalid scan target"
+poc_load_failed:
+  other: "POC load failed, cannot execute scan"
+
+# ========================= Base Scan Strategy Messages =========================
+plugins_custom_specified:
+  other: "{{.Arg1}}: Custom specified ({{.Arg2}})"
+plugins_info:
+  other: "{{.Arg1}}: {{.Arg2}}"
+plugins_none:
+  other: "{{.Arg1}}: None available"
+start_local_scan:
+  other: "Starting local scan"
+start_service_scan:
+  other: "Starting service scan"
+start_web_scan:
+  other: "Starting web scan"
+start_scan:
+  other: "Starting scan"
+
+# ========================= Service Plugin Messages =========================
+# Format: {service}_{type} - type: credential/unauth/service/vuln
+ldap_credential:
+  other: "LDAP {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+ldap_hash_credential:
+  other: "LDAP {{.Arg1}} {{.Arg2}}\\{{.Arg3}} [Hash:{{.Arg4}}]"
+ldap_service:
+  other: "LDAP {{.Arg1}} {{.Arg2}}"
+kafka_credential:
+  other: "Kafka {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+kafka_service:
+  other: "Kafka {{.Arg1}} {{.Arg2}}"
+ftp_service:
+  other: "FTP {{.Arg1}} {{.Arg2}}"
+rdp_service:
+  other: "RDP {{.Arg1}} {{.Arg2}}"
+activemq_credential:
+  other: "ActiveMQ {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+activemq_service:
+  other: "ActiveMQ {{.Arg1}} {{.Arg2}}"
+telnet_credential:
+  other: "Telnet {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+telnet_service:
+  other: "Telnet {{.Arg1}} {{.Arg2}}"
+telnet_unauth_rce:
+  other: "Telnet {{.Arg1}} unauthorized RCE [{{.Arg2}}] {{.Arg3}}"
+telnet_credential_rce:
+  other: "Telnet {{.Arg1}} {{.Arg2}}:{{.Arg3}} RCE verified [{{.Arg4}}] {{.Arg5}}"
+telnet_cve202624061:
+  other: "Telnet {{.Arg1}} CVE-2026-24061 Telnetd Authentication Bypass (user: {{.Arg2}}) {{.Arg3}}"
+cassandra_credential:
+  other: "Cassandra {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+cassandra_service:
+  other: "Cassandra {{.Arg1}} {{.Arg2}}"
+cassandra_unauth:
+  other: "Cassandra {{.Arg1}} No authentication required"
+vnc_unauth:
+  other: "VNC {{.Arg1}} Unauthorized access"
+vnc_credential:
+  other: "VNC {{.Arg1}} Password: {{.Arg2}}"
+smtp_credential:
+  other: "SMTP {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+smtp_service:
+  other: "SMTP {{.Arg1}} {{.Arg2}}"
+mongodb_unauth:
+  other: "MongoDB {{.Arg1}} Unauthorized access"
+mongodb_credential:
+  other: "MongoDB {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mongodb_auth_required:
+  other: "MongoDB {{.Arg1}} Authentication required"
+elasticsearch_credential:
+  other: "Elasticsearch {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+elasticsearch_unauth:
+  other: "Elasticsearch {{.Arg1}} Unauthorized access"
+elasticsearch_service:
+  other: "Elasticsearch {{.Arg1}} {{.Arg2}}"
+mysql_credential:
+  other: "MySQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mysql_service:
+  other: "MySQL {{.Arg1}} {{.Arg2}}"
+memcached_unauth:
+  other: "Memcached {{.Arg1}} Unauthorized access"
+memcached_service:
+  other: "Memcached {{.Arg1}} {{.Arg2}}"
+rsync_credential:
+  other: "Rsync {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+rsync_service:
+  other: "Rsync {{.Arg1}} {{.Arg2}}"
+oracle_credential:
+  other: "Oracle {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+oracle_service:
+  other: "Oracle {{.Arg1}} {{.Arg2}}"
+oracle_default_account:
+  other: "Oracle {{.Arg1}} Default account: {{.Arg2}}:{{.Arg3}}"
+postgresql_credential:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+postgresql_service:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}"
+postgresql_vuln:
+  other: "PostgreSQL {{.Arg1}} {{.Arg2}}"
+smb_service:
+  other: "SMB {{.Arg1}} {{.Arg2}}"
+rabbitmq_credential:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+rabbitmq_service:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}"
+neo4j_unauth:
+  other: "Neo4j {{.Arg1}} Unauthorized access"
+neo4j_credential:
+  other: "Neo4j {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+neo4j_service:
+  other: "Neo4j {{.Arg1}} {{.Arg2}}"
+mssql_credential:
+  other: "MSSQL {{.Arg1}} {{.Arg2}}:{{.Arg3}}"
+mssql_service:
+  other: "MSSQL {{.Arg1}} {{.Arg2}}"
+
+# ========================= Vulnerability Detection Messages =========================
+smbghost_vuln:
+  other: "SMB Ghost {{.Arg1}} CVE-2020-0796 Vulnerable"
+ms17010_start:
+  other: "MS17-010 exploitation started: {{.Arg1}}"
+ms17010_complete:
+  other: "MS17-010 exploitation completed: {{.Arg1}}"
+ms17010_shellcode_complete:
+  other: "{{.Arg1}} MS17-010 exploitation completed (Shellcode length: {{.Arg2}})"
+ms17010_protocol_decrypt_error:
+  other: "Protocol request decryption error: {{.Arg1}}"
+ms17010_protocol_decode_error:
+  other: "Protocol request decoding error: {{.Arg1}}"
+ms17010_session_decrypt_error:
+  other: "Session request decryption error: {{.Arg1}}"
+ms17010_session_decode_error:
+  other: "Session request decoding error: {{.Arg1}}"
+ms17010_connect_decrypt_error:
+  other: "Connection request decryption error: {{.Arg1}}"
+ms17010_connect_decode_error:
+  other: "Connection request decoding error: {{.Arg1}}"
+ms17010_pipe_decrypt_error:
+  other: "Pipe request decryption error: {{.Arg1}}"
+ms17010_pipe_decode_error:
+  other: "Pipe request decoding error: {{.Arg1}}"
+
+# ========================= Redis Plugin Messages =========================
+redis_reconnect_failed:
+  other: "Failed to reconnect to Redis: {{.Arg1}}"
+redis_config_failed:
+  other: "Failed to get Redis config: {{.Arg1}}"
+redis_write_failed:
+  other: "File write failed: {{.Arg1}}"
+redis_write_success:
+  other: "Successfully wrote file: {{.Arg1}}"
+redis_read_failed:
+  other: "Failed to read local file: {{.Arg1}}"
+redis_file_write_success:
+  other: "Successfully wrote content of {{.Arg1}} to {{.Arg2}}"
+redis_ssh_key_failed:
+  other: "SSH key write failed: {{.Arg1}}"
+redis_ssh_key_success:
+  other: "SSH key written successfully"
+redis_cron_failed:
+  other: "Cron job write failed: {{.Arg1}}"
+redis_cron_success:
+  other: "Cron job written successfully"
+redis_restore_failed:
+  other: "Failed to restore database config: {{.Arg1}}"
+
+# ========================= Local Plugin Messages =========================
+# Cron task persistence
+crontask_success:
+  other: "Cron task persistence completed: {{.Arg1}} methods succeeded"
+
+# Keylogger
+keylogger_success:
+  other: "Keylogging completed, captured {{.Arg1}} keyboard events"
+keylogger_save_failed:
+  other: "Failed to save keylog: {{.Arg1}}"
+keylogger_no_input:
+  other: "No keyboard input captured"
+
+# Environment info
+envinfo_sensitive:
+  other: "Found sensitive environment variable: {{.Arg1}}"
+
+# Windows WMI
+winwmi_success:
+  other: "Windows WMI event subscription persistence completed: {{.Arg1}} items"
+
+# Cleaner
+cleaner_success:
+  other: "Trace cleaning completed: {{.Arg1}} files, {{.Arg2}} system entries"
+cleaner_history_found:
+  other: "Found history file: {{.Arg1}} (requires manual cleanup)"
+
+# Downloader
+downloader_success:
+  other: "File download completed: {{.Arg1}} -> {{.Arg2}} (size: {{.Arg3}} bytes)"
+
+# Forward shell
+forwardshell_complete:
+  other: "Forward shell service completed - port: {{.Arg1}}"
+forwardshell_started:
+  other: "Forward shell server started on 0.0.0.0:{{.Arg1}}"
+forwardshell_accept_failed:
+  other: "Failed to accept connection: {{.Arg1}}"
+forwardshell_client_connected:
+  other: "Client connected from: {{.Arg1}}"
+forwardshell_read_failed:
+  other: "Failed to read client command: {{.Arg1}}"
+
+# AV detection
+avdetect_load_failed:
+  other: "Failed to load AV database: {{.Arg1}}"
+avdetect_loaded:
+  other: "Loaded {{.Arg1}} AV product info"
+avdetect_found:
+  other: "Detected AV: {{.Arg1}} ({{.Arg2}} processes)"
+avdetect_process:
+  other: "  - {{.Arg1}}"
+
+# Windows startup folder
+winstartup_success:
+  other: "Windows startup folder persistence completed: {{.Arg1}} methods"
+
+# File info
+fileinfo_sensitive:
+  other: "Found sensitive file: {{.Arg1}}"
+fileinfo_potential:
+  other: "Found potentially sensitive file: {{.Arg1}}"
+
+# DC info
+dcinfo_not_joined:
+  other: "Current computer is not joined to a domain"
+dcinfo_success:
+  other: "Domain controller info collection completed: {{.Arg1}} categories succeeded"
+
+# Windows service
+winservice_success:
+  other: "Windows service persistence completed: {{.Arg1}} items"
+
+# Shell environment
+shellenv_success:
+  other: "Shell environment persistence completed: {{.Arg1}} methods succeeded"
+
+# LD_PRELOAD
+ldpreload_success:
+  other: "LD_PRELOAD persistence completed: {{.Arg1}} methods succeeded"
+
+# SOCKS5 proxy
+socks5_starting:
+  other: "Starting SOCKS5 proxy on port {{.Arg1}}"
+socks5_complete:
+  other: "SOCKS5 proxy completed - port: {{.Arg1}}"
+socks5_started:
+  other: "SOCKS5 proxy server started on 127.0.0.1:{{.Arg1}}"
+socks5_cancelled:
+  other: "SOCKS5 proxy server cancelled by context"
+socks5_accept_failed:
+  other: "Failed to accept connection: {{.Arg1}}"
+socks5_handshake_failed:
+  other: "SOCKS5 handshake failed: {{.Arg1}}"
+socks5_request_failed:
+  other: "SOCKS5 request handling failed: {{.Arg1}}"
+socks5_connected:
+  other: "SOCKS5 proxy connection established"
+
+# Reverse shell
+reverseshell_complete:
+  other: "Reverse shell completed - target: {{.Arg1}}"
+reverseshell_connected:
+  other: "Reverse shell connected to {{.Arg1}}:{{.Arg2}}"
+
+# Systemd service
+systemdservice_success:
+  other: "Systemd service persistence completed: {{.Arg1}} methods succeeded"
+
+# System info
+systeminfo_start:
+  other: "Starting system information collection"
+systeminfo_os:
+  other: "Operating System: {{.Arg1}}"
+systeminfo_arch:
+  other: "Architecture: {{.Arg1}}"
+systeminfo_cpu:
+  other: "CPU Cores: {{.Arg1}}"
+systeminfo_hostname:
+  other: "Hostname: {{.Arg1}}"
+systeminfo_user:
+  other: "Current User: {{.Arg1}}"
+systeminfo_homedir:
+  other: "Home Directory: {{.Arg1}}"
+systeminfo_workdir:
+  other: "Working Directory: {{.Arg1}}"
+systeminfo_tempdir:
+  other: "Temp Directory: {{.Arg1}}"
+systeminfo_pathcount:
+  other: "PATH entries: {{.Arg1}}"
+systeminfo_winver:
+  other: "Windows Version: {{.Arg1}}"
+systeminfo_domain:
+  other: "User Domain: {{.Arg1}}"
+systeminfo_kernel:
+  other: "System Kernel: {{.Arg1}}"
+systeminfo_distro:
+  other: "Distribution: {{.Arg1}}"
+systeminfo_distro_exists:
+  other: "Distribution: /etc/os-release exists"
+systeminfo_whoami:
+  other: "Current User (whoami): {{.Arg1}}"
+
+# Windows scheduled task
+winschtask_success:
+  other: "Windows scheduled task persistence completed: {{.Arg1}} items"
+
+# Windows registry
+winregistry_success:
+  other: "Windows registry persistence completed: {{.Arg1}} items"
+
+# Minidump
+minidump_panic:
+  other: "Minidump plugin panic: {{.Arg1}}"
+minidump_success:
+  other: "Successfully dumped lsass.exe memory to file: {{.Arg1}} (size: {{.Arg2}} bytes)"
+
+# ========================= WebScan Messages =========================
+webscan_target_url_failed:
+  other: "Failed to build target URL: {{.Arg1}}"
+webscan_invalid_url:
+  other: "{{.Arg1}} {{.Arg2}}: {{.Arg3}}"
+webscan_request_create_failed:
+  other: "Failed to create HTTP request: {{.Arg1}}"
+webscan_builtin_poc_failed:
+  other: "Failed to load builtin POC directory: {{.Arg1}}"
+webscan_poc_dir_not_exist:
+  other: "POC directory does not exist: {{.Arg1}}"
+webscan_poc_dir_walk_failed:
+  other: "Failed to traverse POC directory: {{.Arg1}}"
+webscan_rule_match_error:
+  other: "Rule match error [{{.Arg1}}]: {{.Arg2}}"
+webscan_poc_exec_error:
+  other: "POC execution error {{.Arg1}}: {{.Arg2}}"
+webscan_set_exec_error:
+  other: "Set execution error {{.Arg1}}: {{.Arg2}}"
+webscan_regex_compile_error:
+  other: "Regex compile error: {{.Arg1}}"
+webscan_reverse_url_error:
+  other: "Reverse URL parse error: {{.Arg1}}"
+webscan_cel_syntax_error:
+  other: "CEL syntax error [{{.Arg1}}]: {{.Arg2}}"
+webscan_cel_init_failed:
+  other: "Failed to initialize base CEL environment: {{.Arg1}}"
+webscan_request_restricted:
+  other: "POC HTTP request {{.Arg1}} restricted: {{.Arg2}}"
+webscan_response_parse_failed:
+  other: "Response parse failed: {{.Arg1}}"
+
+# Main entry
+param_error:
+  other: "Parameter error: {{.Arg1}}"
+error_generic:
+  other: "Error: {{.Arg1}}"
+init_failed:
+  other: "Initialization failed: {{.Arg1}}"
+poc_load_complete:
+  other: "POC loading complete: Total {{.Arg1}}, Success {{.Arg2}}, Failed {{.Arg3}}"
+redis_scan_success:
+  other: "Redis {{.Arg1}} {{.Arg2}}"
+rabbitmq_detected:
+  other: "RabbitMQ {{.Arg1}} {{.Arg2}}"
+
+# ========================= Web UI Messages =========================
+web_server_started:
+  other: "Web server started on port: {{.Arg1}}"
+web_shutting_down:
+  other: "Web server shutting down..."
+web_mode_not_supported:
+  other: "Web mode not supported in this build, rebuild with: go build -tags web"
