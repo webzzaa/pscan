@@ -19,7 +19,7 @@ runs:
   using: 'composite'
   steps:
     - name: 设置 Go 环境
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{ inputs.go-version }}
         cache: true
@@ -67,7 +67,7 @@ runs:
         echo "→ 压缩后: $(ls -lh pscan-nolocal.exe | awk '{print $5}')"
 
     - name: 上传产物
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       if: always()
       with:
         name: pscan-build-${{ inputs.mode }}-${{ github.run_id }}
