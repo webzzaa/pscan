@@ -67,7 +67,7 @@ runs:
         echo "→ 压缩后: $(ls -lh pscan-nolocal.exe | awk '{print $5}')"
 
     - name: 上传产物
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       if: always()
       with:
         name: pscan-build-${{ inputs.mode }}-${{ github.run_id }}
