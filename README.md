@@ -1,6 +1,6 @@
 # Fscan 魔改版 — 内网渗透扫描工具
 
-> 基于 [fscan](https://github.com/shadow1ng/fscan) v2.1.3 修改，针对红队场景进行了参数混淆与特征规避。
+> 基于 [fscan](https://github.com/shadow1ng/fscan) v2.1.3 修改，针对红队场景进行了参数混淆与特征规避。结合https://github.com/webzzaa/pscan-loader-   使用效果更佳
 
 ---
 
